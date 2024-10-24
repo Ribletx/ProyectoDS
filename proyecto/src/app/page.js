@@ -1,9 +1,17 @@
+// src/app/page.js
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-red-200 text-6xl flex align-center justify-center h-screen item-center">
-      Hola 2
+    <div>
+      <h1>Página Principal</h1>
+      <nav>
+        <ul>
+          <li><Link href="/login">Iniciar Sesión</Link></li>
+          <li><Link href="/register">Registrarse</Link></li>
+          <li><Link href="/dashboard">Dashboard</Link></li>
+        </ul>
+      </nav>
     </div>
-    
   );
 }
