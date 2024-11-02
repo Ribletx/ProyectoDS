@@ -1,14 +1,18 @@
 "use client"; // Añade esta línea para marcar el archivo como cliente
 
+
+// a futuro quiero agregar que la puntuación del juego se vaya guardando según el usuario que este jugando
+
 import React, { useEffect, useRef, useState } from 'react';
 
 const SnakeGame = () => {
   const canvasRef = useRef(null);
-  const [gameOver, setGameOver] = useState(false); // Estado para manejar el juego terminado
-
+  const [gameOver, setGameOver] = useState(false);
+  const [canChangeDirection, setCanChangeDirection] = useState(true);
+  const [appleCount, setAppleCount] = useState(0); // Contador de manzanas
+  
   const generateFood = (snake, canvasWidth, canvasHeight) => {
     let newFood;
-    // Genera comida en una posición no ocupada por la serpiente
     do {
       newFood = {
         x: Math.floor(Math.random() * (canvasWidth)),
@@ -22,22 +26,17 @@ const SnakeGame = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    // Lógica básica del juego de Snake
     let snake = [{ x: 10, y: 10 }];
     let direction = { x: 1, y: 0 }; // Movimiento inicial a la derecha
-    const scale = 20; // Tamaño de la cuadrícula
-    const canvasWidth = canvas.width / scale; // Ancho del canvas en unidades de escala
-    const canvasHeight = canvas.height / scale; // Alto del canvas en unidades de escala
-    let food = generateFood(snake, canvasWidth, canvasHeight); // Genera comida en una posición válida
+    const scale = 20;
+    const canvasWidth = canvas.width / scale;
+    const canvasHeight = canvas.height / scale;
+    let food = generateFood(snake, canvasWidth, canvasHeight);
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpia el lienzo
-
-      // Dibuja la comida
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = 'red';
       ctx.fillRect(food.x * scale, food.y * scale, scale, scale);
-
-      // Dibuja la serpiente
       ctx.fillStyle = 'green';
       snake.forEach((segment) => {
         ctx.fillRect(segment.x * scale, segment.y * scale, scale, scale);
@@ -45,48 +44,43 @@ const SnakeGame = () => {
     };
 
     const checkCollision = (head) => {
-      // Verifica si la cabeza choca con el cuerpo
-      if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        return true;
-      }
-      return false;
+      return snake.some(segment => segment.x === head.x && segment.y === head.y);
     };
 
     const update = () => {
-      if (gameOver) return; // Detiene el juego si ya terminó
+      if (gameOver) return;
 
-      // Actualiza la posición de la serpiente
       const newHead = {
         x: snake[0].x + direction.x,
         y: snake[0].y + direction.y,
       };
 
-      // Verifica colisiones con el borde y ajusta la posición si es necesario
-      if (newHead.x < 0) newHead.x = canvasWidth - 1; // Aparece por la derecha
-      else if (newHead.x >= canvasWidth) newHead.x = 0; // Aparece por la izquierda
-      else if (newHead.y < 0) newHead.y = canvasHeight - 1; // Aparece por abajo
-      else if (newHead.y >= canvasHeight) newHead.y = 0; // Aparece por arriba
+      if (newHead.x < 0) newHead.x = canvasWidth - 1;
+      else if (newHead.x >= canvasWidth) newHead.x = 0;
+      else if (newHead.y < 0) newHead.y = canvasHeight - 1;
+      else if (newHead.y >= canvasHeight) newHead.y = 0;
 
-      // Verifica colisiones con el cuerpo
       if (checkCollision(newHead)) {
-        setGameOver(true); // Si hay colisión, termina el juego
+        setGameOver(true);
         return;
       }
 
-      // Verifica si la serpiente ha comido la comida
       if (newHead.x === food.x && newHead.y === food.y) {
-        snake.unshift(newHead); // Agrega la nueva cabeza
-        food = generateFood(snake, canvasWidth, canvasHeight); // Genera nueva comida en una posición válida
+        snake.unshift(newHead);
+        setAppleCount(prevCount => prevCount + 1); // Aumenta el contador de manzanas
+        food = generateFood(snake, canvasWidth, canvasHeight); // Genera nueva comida
       } else {
-        snake.unshift(newHead); // Agrega la nueva cabeza
-        snake.pop(); // Elimina la cola
+        snake.unshift(newHead);
+        snake.pop(); // Elimina la última parte de la serpiente
       }
 
-      // Dibuja la serpiente y la comida
       draw();
+      setCanChangeDirection(true); // Permite cambiar de dirección después de actualizar la posición
     };
 
     const handleKeyDown = (event) => {
+      if (!canChangeDirection) return;
+
       switch (event.key) {
         case 'ArrowUp':
           if (direction.y === 0) direction = { x: 0, y: -1 }; // Cambia dirección hacia arriba si no va hacia abajo
@@ -101,28 +95,35 @@ const SnakeGame = () => {
           if (direction.x === 0) direction = { x: 1, y: 0 }; // Cambia dirección hacia la derecha si no va hacia la izquierda
           break;
       }
+      setCanChangeDirection(false); // Bloquea el cambio de dirección hasta que se actualice la posición
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    const interval = setInterval(update, 100); // Actualiza el juego cada 100 ms
+    const interval = setInterval(update, 100);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [gameOver]); // Añadir gameOver como dependencia
+  }, [gameOver]); // Dependencias solo del estado del juego
+
+  const restartGame = () => {
+    setGameOver(false);
+    setAppleCount(0); // Reinicia el contador de manzanas
+    setCanChangeDirection(true); // Permite el cambio de dirección al reiniciar
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-800 to-gray-900 text-white items-center justify-center">
       <h1 className="text-4xl mb-4">Juego de Snake</h1>
       <canvas ref={canvasRef} width={400} height={400} className="border border-white"></canvas>
-      {/* Contenedor para Game Over y botones, alineados bajo el canvas */}
       <div className="flex flex-col items-center mt-4">
+        <h2 className="text-xl">Manzanas recolectadas: {appleCount}</h2> {/* Muestra el contador de manzanas */}
         {gameOver && (
           <>
             <h2 className="text-2xl text-red-500 mt-4">Game Over</h2>
             <div className="flex space-x-4 mt-2">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.location.reload()}>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={restartGame}>
                 Reiniciar
               </button>
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
@@ -132,7 +133,6 @@ const SnakeGame = () => {
           </>
         )}
       </div>
-      {/* Botón de regresar visible solo cuando no hay Game Over */}
       {!gameOver && (
         <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
           Regresar
