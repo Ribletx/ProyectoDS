@@ -14,13 +14,20 @@ export default function Home() {
             Bienvenido a nuestra plataforma {process.env.name || "Usuario"}.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="/login" className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-lg font-semibold text-center transition transform hover:scale-105 shadow-md">
-            Sign In
-          </Link>
-          <Link href="/register" className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-lg font-semibold text-center transition transform hover:scale-105 shadow-md">
-            Register
-          </Link>
-        </div>
+            <Link href="/login" className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-lg font-semibold text-center transition transform hover:scale-105 shadow-md">
+              Sign In
+            </Link>
+            <Link href="/register" className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-lg font-semibold text-center transition transform hover:scale-105 shadow-md">
+              Register
+            </Link>
+          </div>
+          <div className="mt-6">
+            <Link href="/snake">
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                Jugar Snake
+              </button>
+            </Link>
+          </div>
         </div>
       </main>
       
