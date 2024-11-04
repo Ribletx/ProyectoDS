@@ -7,11 +7,6 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    // const filePath = path.join(process.cwd(), "src/data/users.json");
-    // const fileData = promises.readFile(filePath, "utf-8");
-    // const users = JSON.parse(fileData);
-    // alert(users);
-
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -44,22 +39,22 @@ export default function Register() {
 
     return (
         <div className="bg-blue-100 min-h-screen flex flex-col items-center justify-center p-4">
-            <h1 className="text-4xl font-bold mb-6">Register Page</h1>
+            <h1 className="text-4xl font-bold mb-6">Página de Registro</h1>
             <div className="text-xl w-full max-w-xs">
                 <form onSubmit={handleRegister} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Usuario</label>
                         <input
                             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="username"
                             type="text"
-                            placeholder="Username"
+                            placeholder="Usuario"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
                     <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
                         <input
                             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''}`}
                             id="password"
@@ -82,11 +77,8 @@ export default function Register() {
                     {error && <p className="text-red-500 text-xs italic mt-2">{error}</p>}
                 </form>
             </div>
-            <Link href="/" className="text-blue-600 hover:text-blue-800">Inicio</Link>
+            <Link href="/" className="text-blue-600 hover:text-blue-800">Volver al inicio</Link>
         </div>
     );
 }
-
-
-
 
