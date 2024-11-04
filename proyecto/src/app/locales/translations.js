@@ -5,7 +5,7 @@ const translations = {
     signIn: "Iniciar Sesión",
     register: "Registrarse",
     playSnake: "Jugar Snake",
-    logout: "Cerrar sesión"  // Nuevo mensaje
+    logout: "Cerrar sesión" // Nuevo mensaje
   },
   en: {
     mainTitle: "Welcome to the main page",
@@ -13,7 +13,7 @@ const translations = {
     signIn: "Sign In",
     register: "Register",
     playSnake: "Play Snake",
-    logout: "Logout"  // Nuevo mensaje
+    logout: "Logout" // Nuevo mensaje
   }
 };
 

@@ -14,5 +14,17 @@
   {
     "username": "cris",
     "password": "$2a$10$AbayALlo8ZY6s9QYC/4UL.xBuJ1LIsR0MwFIjkV4LGZnXpDtoDtdi"
+  },
+  {
+    "username": "juan",
+    "password": "$2a$10$/tNBDvlRWGSTyf87KiNnI.qo/9il542kObPXSoCFP/DWLGvOFCR.6"
+  },
+  {
+    "username": "juanito",
+    "password": "$2a$10$qnCz5K1BQT0OJ7sXP53ymuBLU8pzrSreVhjqey83Vg3/S7QOzU/tW"
+  },
+  {
+    "username": "pedro",
+    "password": "$2a$10$4eZSWf9gg2AGqEIYN8eu0.98M0dDdI4z5/MUdQYbp2FNNUTCROpRm"
   }
 ]

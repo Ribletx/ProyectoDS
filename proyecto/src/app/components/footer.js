@@ -15,7 +15,7 @@ export default function Footer() {
         </a>
       </div>
       <p className="text-gray-400 text-sm">
-        © {new Date().getFullYear()} Footer generico xd. Todos los derechos reservados.
+        © {new Date().getFullYear()} Nuestro Footer xd like si lees esto. Todos los derechos reservados.
       </p>
     </footer>
   );
