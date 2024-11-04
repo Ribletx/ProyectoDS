@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Nueva importación
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -8,6 +9,7 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const router = useRouter(); // Instancia de useRouter
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,7 +26,9 @@ export default function Login() {
         });
 
         if (res.ok) {
-            alert('¡Bienvenido!');
+            // Guardamos el nombre de usuario en el localStorage
+            localStorage.setItem("username", username);
+            router.push("/"); // Redirige a la página principal
         } else {
             const data = await res.json();
             setErrorMessage(data.message || 'Credenciales incorrectas.');
@@ -60,7 +64,7 @@ export default function Login() {
                             id="password"
                             type="password"
                             placeholder="******************"
-                            value={password}
+                            //value={password} sino se ve en inspeccionar
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
