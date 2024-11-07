@@ -1,6 +1,6 @@
 const es = {
   mainTitle: "Bienvenido al Centro de Juegos",
-  welcomeMessage: "Hola, {name}! Por favor, inicia sesión o regístrate.",
+  welcomeMessage: "Bienvenido, {name}!",
   signIn: "Iniciar sesión",
   register: "Registrarse",
   logout: "Cerrar sesión",

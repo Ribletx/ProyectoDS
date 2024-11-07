@@ -1,6 +1,6 @@
 const en = {
   mainTitle: "Welcome to the Game Hub",
-  welcomeMessage: "Hello, {name}! Please sign in or register.",
+  welcomeMessage: "Welcome, {name}!",
   signIn: "Sign In",
   register: "Register",
   logout: "Logout",
