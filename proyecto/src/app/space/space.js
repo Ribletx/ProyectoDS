@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 
 export default function SpaceInvadersGame() {
@@ -14,16 +12,23 @@ export default function SpaceInvadersGame() {
   const bulletHeight = 15;
   const invaderWidth = 40;
   const invaderHeight = 30;
-  
+
   let playerX = canvasWidth / 2 - playerWidth / 2;
   let playerY = canvasHeight - playerHeight - 10;
   let playerSpeed = 5;
   let bulletSpeed = 5;
   let invaderSpeed = 1;
-  
+  let bulletDelay = 300; // Delay in milliseconds between shots
+  let lastShotTime = 0;
+
   let bullets = [];
   let invaders = [];
   let isGameOver = false;
+
+  // Movement state
+  let moveLeft = false;
+  let moveRight = false;
+  let shoot = false;
 
   // Initialize invaders (rows and columns)
   const initInvaders = () => {
@@ -109,13 +114,20 @@ export default function SpaceInvadersGame() {
   };
 
   // Handle player movement
-  const handlePlayerMove = (e) => {
-    if (e.key === "ArrowLeft" && playerX > 0) {
+  const handlePlayerMove = () => {
+    if (moveLeft && playerX > 0) {
       playerX -= playerSpeed;
-    } else if (e.key === "ArrowRight" && playerX < canvasWidth - playerWidth) {
+    } else if (moveRight && playerX < canvasWidth - playerWidth) {
       playerX += playerSpeed;
-    } else if (e.key === " " && !isGameOver) {
+    }
+  };
+
+  // Handle shooting
+  const handleShoot = () => {
+    const now = Date.now();
+    if (now - lastShotTime >= bulletDelay && shoot) {
       bullets.push({ x: playerX + playerWidth / 2 - bulletWidth / 2, y: playerY });
+      lastShotTime = now; // Update last shot time
     }
   };
 
@@ -129,6 +141,8 @@ export default function SpaceInvadersGame() {
 
     moveInvaders();
     checkCollisions();
+    handlePlayerMove();
+    handleShoot();
 
     if (invaders.some((invader) => invader.y + invaderHeight >= playerY)) {
       isGameOver = true;
@@ -148,10 +162,32 @@ export default function SpaceInvadersGame() {
     initInvaders();
     gameLoop(ctx);
 
-    window.addEventListener("keydown", handlePlayerMove);
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        moveLeft = true;
+      } else if (e.key === "ArrowRight") {
+        moveRight = true;
+      } else if (e.key === " ") {
+        shoot = true;
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      if (e.key === "ArrowLeft") {
+        moveLeft = false;
+      } else if (e.key === "ArrowRight") {
+        moveRight = false;
+      } else if (e.key === " ") {
+        shoot = false;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener("keydown", handlePlayerMove);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
 
@@ -161,6 +197,33 @@ export default function SpaceInvadersGame() {
       <div className="score">
         <p>Score: {score}</p>
       </div>
+      <style jsx>{`
+        .game-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+
+        canvas {
+          border: 2px solid black;
+          max-width: 100%;
+          height: auto;
+        }
+
+        .score {
+          margin-top: 10px;
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+          .score {
+            font-size: 1.2rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }
