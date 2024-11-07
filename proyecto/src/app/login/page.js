@@ -64,7 +64,7 @@ export default function Login() {
                             id="password"
                             type="password"
                             placeholder="******************"
-                            //value={password} sino se ve en inspeccionar
+                            //value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
