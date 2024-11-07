@@ -1,6 +1,4 @@
-// /src/app/layout.js
 import { LanguageProvider } from "./context/LanguageContext"; // Asegúrate de que la ruta sea correcta
-import { useLanguage } from "./context/LanguageContext"; // Para poder acceder al contexto si lo necesitas
 
 export default function RootLayout({ children }) {
   return (
@@ -20,3 +18,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+

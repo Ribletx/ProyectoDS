@@ -1,7 +1,6 @@
-// /src/app/context/LanguageContext.js
-"use client"; // Indica que este archivo debe ser tratado como cliente
+"use client";
 
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import en from "../idiomas/en";
 import es from "../idiomas/es";
 
@@ -9,11 +8,20 @@ import es from "../idiomas/es";
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [language, setLanguage] = useState("en"); // Estado del idioma
+  // Recuperar el idioma guardado en localStorage (por defecto 'en' si no existe)
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("language") || "en";
+    }
+    return "en"; // Valor por defecto en caso de que no haya acceso a localStorage
+  });
 
-  const translations = language === "en" ? en : es; // Traducción en función del idioma
+  const translations = language === "en" ? en : es;
 
-  const changeLanguage = (lang) => setLanguage(lang); // Función para cambiar el idioma
+  const changeLanguage = (lang) => {
+    setLanguage(lang);
+    localStorage.setItem("language", lang); // Guardamos la preferencia en localStorage
+  };
 
   return (
     <LanguageContext.Provider value={{ translations, changeLanguage }}>

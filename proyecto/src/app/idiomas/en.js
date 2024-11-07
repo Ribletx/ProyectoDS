@@ -7,6 +7,7 @@ const en = {
   playSnake: "Play Snake",
   playSpace: "Play Space Invaders",
   headerTitle: "Welcome! - Design Project", // Traducción agregada
+  footerText: "© {year} Our Footer. Like if you read this. All rights reserved.",
 };
 
 export default en;

@@ -1,6 +1,12 @@
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { useLanguage } from '../context/LanguageContext'; // Importamos el hook del contexto
 
 export default function Footer() {
+  const { translations } = useLanguage(); // Usamos el contexto para acceder a las traducciones
+
+  // Comprobamos si translations y translations.footerText están disponibles
+  const footerText = translations?.footerText || "© {year} Nuestro Footer xd like si lees esto. Todos los derechos reservados.";
+
   return (
     <footer className="w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white py-6 flex flex-col items-center justify-center">
       <div className="flex gap-6 mb-4">
@@ -15,7 +21,8 @@ export default function Footer() {
         </a>
       </div>
       <p className="text-gray-400 text-sm">
-        © {new Date().getFullYear()} Nuestro Footer xd like si lees esto. Todos los derechos reservados.
+        {/* Reemplazamos {year} con el año actual */}
+        {footerText.replace("{year}", new Date().getFullYear())}
       </p>
     </footer>
   );

@@ -1,16 +1,16 @@
 "use client"; // Añade esta línea para marcar el archivo como cliente
 
-
 // a futuro quiero agregar que la puntuación del juego se vaya guardando según el usuario que este jugando
-
 import React, { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '../context/LanguageContext'; // Importamos el contexto de idioma
 
 const SnakeGame = () => {
+  const { translations } = useLanguage(); // Obtenemos las traducciones del contexto
   const canvasRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);
   const [canChangeDirection, setCanChangeDirection] = useState(true);
   const [appleCount, setAppleCount] = useState(0); // Contador de manzanas
-  
+
   const generateFood = (snake, canvasWidth, canvasHeight) => {
     let newFood;
     do {
@@ -115,19 +115,19 @@ const SnakeGame = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-800 to-gray-900 text-white items-center justify-center">
-      <h1 className="text-4xl mb-4">Juego de Snake</h1>
+      <h1 className="text-4xl mb-4">{translations.snakeGameTitle || "Juego de Snake"}</h1>
       <canvas ref={canvasRef} width={400} height={400} className="border border-white"></canvas>
       <div className="flex flex-col items-center mt-4">
-        <h2 className="text-xl">Manzanas recolectadas: {appleCount}</h2> {/* Muestra el contador de manzanas */}
+        <h2 className="text-xl">{translations.appleCountLabel || "Manzanas recolectadas:"} {appleCount}</h2> {/* Muestra el contador de manzanas */}
         {gameOver && (
           <>
-            <h2 className="text-2xl text-red-500 mt-4">Game Over</h2>
+            <h2 className="text-2xl text-red-500 mt-4">{translations.gameOver || "Game Over"}</h2>
             <div className="flex space-x-4 mt-2">
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={restartGame}>
-                Reiniciar
+                {translations.restartButton || "Reiniciar"}
               </button>
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
-                Regresar
+                {translations.backButton || "Regresar"}
               </button>
             </div>
           </>
@@ -135,7 +135,7 @@ const SnakeGame = () => {
       </div>
       {!gameOver && (
         <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
-          Regresar
+          {translations.backButton || "Regresar"}
         </button>
       )}
     </div>
