@@ -7,17 +7,24 @@ export default function Header() {
   const [username, setUsername] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para manejar el menú de idiomas
   const [selectedLanguage, setSelectedLanguage] = useState('es'); // Idioma seleccionado
+  const [showCredentialCard, setShowCredentialCard] = useState(false); // Estado para la tarjeta de credencial
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUsername(storedUsername);
     }
+    // Mostrar la tarjeta de credencial después de 5 segundos
+    const timer = setTimeout(() => {
+      setShowCredentialCard(true);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('username');
     setUsername(null);
+    setShowCredentialCard(false); // Ocultar tarjeta al cerrar sesión
   };
 
   const handleLanguageChange = (language) => {
@@ -27,21 +34,21 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white p-4 flex items-center justify-between shadow-lg">
+    <header className="w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white p-4 flex flex-col sm:flex-row items-center justify-between shadow-lg">
       <div className="flex items-center space-x-2">
         {/* Botón para cambiar idioma */}
         <div className="relative">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center text-white px-4 py-2 rounded"
+            className="flex items-center text-white px-4 py-2 rounded hover:bg-gray-800 transition-all duration-300"
           >
             {selectedLanguage === 'es' ? 'Español' : 'English'}
             <span className="ml-2">{isMenuOpen ? '▲' : '▼'}</span>
           </button>
-          
+
           {/* Menú desplegable con los idiomas */}
           {isMenuOpen && (
-            <div className="absolute bg-white text-black mt-2 rounded shadow-lg w-32">
+            <div className="absolute bg-white text-black mt-2 rounded w-32">
               <button
                 onClick={() => handleLanguageChange('es')}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-200"
@@ -59,17 +66,25 @@ export default function Header() {
         </div>
       </div>
 
-      <h1 className="text-white text-3xl font-extrabold tracking-widest drop-shadow-lg">
+      {/* Título principal con ajuste de tamaño de fuente responsivo */}
+      <h1 className="text-white text-center font-extrabold tracking-widest drop-shadow-lg text-2xl sm:text-3xl lg:text-4xl leading-tight">
         {translations.headerTitle}
       </h1>
 
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 mt-4 sm:mt-0">
         {username ? (
           <>
-            <span className="text-gray-300">{translations.welcomeMessage.replace('{name}', username)}</span>
+            {showCredentialCard ? (
+              <div className="bg-gray-800 text-gray-200 p-3 rounded-lg">
+                <p className="text-sm font-bold">Usuario:</p>
+                <p className="text-lg">{username}</p>
+              </div>
+            ) : (
+              <span className="text-gray-300 text-sm sm:text-base">{translations.welcomeMessage.replace('{name}', username)}</span>
+            )}
             <button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105 shadow-md"
+              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105"
             >
               {translations.logout}
             </button>
@@ -78,13 +93,13 @@ export default function Header() {
           <>
             <Link
               href="/login"
-              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105 shadow-md"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105 whitespace-nowrap"
             >
               {translations.signIn}
             </Link>
             <Link
               href="/register"
-              className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105 shadow-md"
+              className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105 whitespace-nowrap"
             >
               {translations.register}
             </Link>

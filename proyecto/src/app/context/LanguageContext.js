@@ -8,20 +8,32 @@ import es from "../idiomas/es";
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  // Recuperar el idioma guardado en localStorage (por defecto 'en' si no existe)
+  // Establecer 'es' como idioma predeterminado si no hay valor en localStorage
   const [language, setLanguage] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("language") || "en";
+      return localStorage.getItem("language") || "es";
     }
-    return "en"; // Valor por defecto en caso de que no haya acceso a localStorage
+    return "es"; // Valor por defecto para la renderización en el servidor
   });
 
   const translations = language === "en" ? en : es;
 
   const changeLanguage = (lang) => {
     setLanguage(lang);
-    localStorage.setItem("language", lang); // Guardamos la preferencia en localStorage
+    if (typeof window !== "undefined") {
+      localStorage.setItem("language", lang); // Guardar la preferencia solo en el cliente
+    }
   };
+
+  // Sincronizar el idioma inicial al cargar en el cliente
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedLanguage = localStorage.getItem("language");
+      if (storedLanguage) {
+        setLanguage(storedLanguage);
+      }
+    }
+  }, []);
 
   return (
     <LanguageContext.Provider value={{ translations, changeLanguage }}>
