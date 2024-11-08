@@ -1,12 +1,12 @@
 "use client";
 
-import { useLanguage } from './context/LanguageContext';
+import { useLanguage } from './context/LanguageContext'; // Ajusta la ruta para importar el contexto de idioma
 import Header from './components/header';
 import Footer from './components/footer';
 import Link from "next/link";
 
 export default function Home() {
-  const { translations } = useLanguage();
+  const { translations } = useLanguage(); // Obtener las traducciones del contexto
 
   return (
     <div 
@@ -18,18 +18,22 @@ export default function Home() {
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8">
         <div className="bg-gray-700 bg-opacity-60 p-8 rounded-lg shadow-xl text-center w-full max-w-md">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {translations.mainTitle}
+            {translations.mainTitle} {/* Título traducido */}
           </h1>
 
-          <div className="mt-6 space-y-4 grid">
-            <Link href="/snake">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
-                {translations.playSnake}
+          {/* Contenedor de los botones usando flex */}
+          <div className="mt-6 flex flex-row justify-center space-x-6">
+            {/* Botón para ir a la sección de Juegos */}
+            <Link href="/juegos">
+              <button className="bg-blue-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                {translations.gameButton} {/* Texto del botón traducido */}
               </button>
             </Link>
-            <Link href="/space">
-              <button className="bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg text-xl font-semibold transition transform hover:scale-105 shadow-md">
-                {translations.playSpace}
+
+            {/* Botón para ir a la sección de Textos */}
+            <Link href="/textos">
+              <button className="bg-red-500 hover:bg-blue-700 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                {translations.textButton} {/* Texto del botón traducido */}
               </button>
             </Link>
           </div>

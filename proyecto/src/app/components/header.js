@@ -1,12 +1,13 @@
 import { useLanguage } from '../context/LanguageContext';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { FaHome } from 'react-icons/fa'; // Importa el ícono de "Home" (Casa)
 
 export default function Header() {
   const { translations, changeLanguage } = useLanguage();
   const [username, setUsername] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para manejar el menú de idiomas
-  const [selectedLanguage, setSelectedLanguage] = useState('es'); // Idioma seleccionado
+  const [selectedLanguage, setSelectedLanguage] = useState('es'); // Idioma seleccionado por defecto
   const [showCredentialCard, setShowCredentialCard] = useState(false); // Estado para la tarjeta de credencial
 
   useEffect(() => {
@@ -14,6 +15,14 @@ export default function Header() {
     if (storedUsername) {
       setUsername(storedUsername);
     }
+
+    // Cargar el idioma desde localStorage
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setSelectedLanguage(savedLanguage);
+      changeLanguage(savedLanguage); // Cambiar idioma en el contexto
+    }
+
     // Mostrar la tarjeta de credencial después de 5 segundos
     const timer = setTimeout(() => {
       setShowCredentialCard(true);
@@ -30,12 +39,20 @@ export default function Header() {
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
     changeLanguage(language); // Cambia el idioma en el contexto
+    localStorage.setItem('language', language); // Guardar idioma en localStorage
     setIsMenuOpen(false); // Cierra el menú después de seleccionar el idioma
   };
 
   return (
     <header className="w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white p-4 flex flex-col sm:flex-row items-center justify-between shadow-lg">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-4">
+        {/* Botón de casa para regresar a la página principal */}
+        <Link href="/">
+          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full transition-all duration-300">
+            <FaHome className="text-xl" /> {/* Ícono de casa */}
+          </button>
+        </Link>
+
         {/* Botón para cambiar idioma */}
         <div className="relative">
           <button

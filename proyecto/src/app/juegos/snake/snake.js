@@ -2,7 +2,7 @@
 
 // a futuro quiero agregar que la puntuación del juego se vaya guardando según el usuario que este jugando
 import React, { useEffect, useRef, useState } from 'react';
-import { useLanguage } from '../context/LanguageContext'; // Importamos el contexto de idioma
+import { useLanguage } from '../../context/LanguageContext'; // Importamos el contexto de idioma
 
 const SnakeGame = () => {
   const { translations } = useLanguage(); // Obtenemos las traducciones del contexto
