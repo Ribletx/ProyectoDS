@@ -6,11 +6,15 @@ const es = {
   signIn: "Iniciar sesión",
   register: "Registrarse",
   logout: "Cerrar sesión",
+
+  //juegos
   playSnake: "Jugar Snake",
   playSpace: "Jugar Space Invaders",
   playFlapy: "Jugar Flappy Bird",
   playPingPong: "Jugar Ping Pong",
   playMemorice: "Jugar Memorice",
+  playtetris: "Jugar Tetris",
+
   headerTitle: "¡Bienvenido! - Proyecto Diseño", // Traducción agregada
   footerText: "© {year} Nuestro Footer xd, like si lees esto. Todos los derechos reservados.",
   snakeGameTitle: "Juego de Snake", // Título para el juego de Snake

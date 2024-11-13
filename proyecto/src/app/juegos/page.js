@@ -64,6 +64,13 @@ export default function Home() {
                 {translations.playMemorice}
               </button>
             </Link>
+
+            {/* Botón para ir a la sección de Tetris */}
+            <Link href="/juegos/tetris">
+              <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                {translations.playtetris}
+              </button>
+            </Link>
           </div>
         </div>
       </main>
