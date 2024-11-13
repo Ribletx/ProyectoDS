@@ -9,6 +9,8 @@ const en = {
   playSnake: "Play Snake",
   playSpace: "Play Space Invaders",
   playFlapy: "Play Flappy Bird",
+  playPingPong: "Play Ping Pong",
+  playMemorice: "Play Memorice",
   headerTitle: "Welcome! - Design Project", // Traducción agregada
   footerText: "© {year} Our Footer. Like if you read this. All rights reserved.",
   gameButton: "Games",

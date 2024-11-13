@@ -37,10 +37,31 @@ export default function Home() {
               </button>
             </Link>
 
-             {/* Botón para ir a la sección de flapyBird */}
-             <Link href="/juegos/flapyBird">
+            {/* Botón para ir a la sección de Flappy Bird */}
+            <Link href="/juegos/flapyBird">
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
                 {translations.playFlapy}
+              </button>
+            </Link>
+
+            {/* Botón para ir a la sección de Ping Pong */}
+            <Link href="/juegos/pingPong">
+              <button className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                {translations.playPingPong}
+              </button>
+            </Link>
+
+            {/* Botón para ir a la sección de 2048 */}
+            <Link href="/juegos/2048">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                2048
+              </button>
+            </Link>
+
+            {/* Botón para ir a la sección de memorice */}
+            <Link href="/juegos/memorice">
+              <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+                {translations.playMemorice}
               </button>
             </Link>
           </div>
@@ -51,3 +72,4 @@ export default function Home() {
     </div>
   );
 }
+

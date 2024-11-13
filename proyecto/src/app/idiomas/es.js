@@ -9,6 +9,8 @@ const es = {
   playSnake: "Jugar Snake",
   playSpace: "Jugar Space Invaders",
   playFlapy: "Jugar Flappy Bird",
+  playPingPong: "Jugar Ping Pong",
+  playMemorice: "Jugar Memorice",
   headerTitle: "¡Bienvenido! - Proyecto Diseño", // Traducción agregada
   footerText: "© {year} Nuestro Footer xd, like si lees esto. Todos los derechos reservados.",
   snakeGameTitle: "Juego de Snake", // Título para el juego de Snake
