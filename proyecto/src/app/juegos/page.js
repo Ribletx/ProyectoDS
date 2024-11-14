@@ -25,49 +25,49 @@ export default function Home() {
           <div className="mt-6 flex space-x-4 flex-col"> 
             {/* Botón para ir a la sección de Snake */}
             <Link href="/juegos/snake">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playSnake}
               </button>
             </Link>
 
             {/* Botón para ir a la sección de Space */}
             <Link href="/juegos/space">
-              <button className="bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playSpace}
               </button>
             </Link>
 
             {/* Botón para ir a la sección de Flappy Bird */}
             <Link href="/juegos/flapyBird">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playFlapy}
               </button>
             </Link>
 
             {/* Botón para ir a la sección de Ping Pong */}
             <Link href="/juegos/pingPong">
-              <button className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playPingPong}
               </button>
             </Link>
 
             {/* Botón para ir a la sección de 2048 */}
             <Link href="/juegos/2048">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 2048
               </button>
             </Link>
 
             {/* Botón para ir a la sección de memorice */}
             <Link href="/juegos/memorice">
-              <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playMemorice}
               </button>
             </Link>
 
             {/* Botón para ir a la sección de Tetris */}
             <Link href="/juegos/tetris">
-              <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md">
+              <button className="bg-blue-300 hover:bg-blue-400 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5">
                 {translations.playtetris}
               </button>
             </Link>

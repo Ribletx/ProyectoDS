@@ -92,7 +92,7 @@ const FlappyBirdGame = () => {
 
   const handleJump = () => {
     if (!gameOver) {
-      setVelocity(-10);
+      setVelocity(-6);
     }
   };
 
