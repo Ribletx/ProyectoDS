@@ -7,7 +7,7 @@ const FlappyBirdPage = () => {
 
   return (
     <div
-      className="min-h-screen flex flex-col bg-blue-600 overflow-hidden"
+      className="min-h-screen flex flex-col bg-blue-600 overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/fondo.png')" }}
     >
       <button

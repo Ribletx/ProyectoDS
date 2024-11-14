@@ -1,10 +1,12 @@
 [
   {
     "username": "ignacio",
-    "password": "$2a$10$vwEwcgHEm4peUY3xUN.1LeRr3Xkv2ztSfjompDJl10Fn/7xYxNwF."
+    "password": "$2a$10$vwEwcgHEm4peUY3xUN.1LeRr3Xkv2ztSfjompDJl10Fn/7xYxNwF.",
+    "flappypoints": 20
   },
   {
     "username": "cris",
-    "password": "$2a$10$d0DdstKchC6CClPMQ3S30.w11o0s1p/6PxUw0Q7xfW6Np73r862ee"
+    "password": "$2a$10$d0DdstKchC6CClPMQ3S30.w1o0s1p/6PxUw0Q7xfW6Np73r862ee",
+    "flappypoints": 0
   }
 ]

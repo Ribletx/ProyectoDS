@@ -4,7 +4,7 @@ import SnakeGame from './snake'; // El componente del juego
 const SnakePage = () => {
   return (
     <div 
-      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden" // Evita que la pantalla se desplace
+      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden bg-cover bg-center bg-no-repeat" // Evita que la pantalla se desplace
       style={{ backgroundImage: "url('/fondo.png')" }} // Fondo personalizado
     >
 

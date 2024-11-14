@@ -23,7 +23,7 @@ const PingPongPage = () => {
 
   return (
     <div 
-      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden"
+      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/fondo.png')" }}
     >
       <button 
@@ -35,11 +35,11 @@ const PingPongPage = () => {
 
       {gameMode === null ? (
         <div className="flex-grow flex items-center justify-center text-white">
-          <div className="text-center">
-            <h1 className="text-3xl mb-4">Seleccione el modo de juego</h1>
+          <div className="text-center bg-gray-700 bg-opacity-60 rounded-xl p-8">
+            <h1 className="text-3xl mb-4 text-white ">Seleccione el modo de juego</h1>
             <button
               onClick={() => handleGameMode('1-player')}
-              className="bg-blue-500 p-4 text-xl rounded-lg mb-4"
+              className="bg-blue-500 p-4 px-7 text-xl rounded-lg mb-4"
             >
               1 Jugador
             </button>
