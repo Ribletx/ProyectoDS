@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import TetrisGame from "./tetris";
+import TetrisGame from "./tetris"; // Asegúrate de que el nombre sea correcto
 
-export default function SpacePage() {
+export default function TetrisPage() {
   const router = useRouter();
 
   const handleBack = () => {
@@ -11,10 +11,10 @@ export default function SpacePage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-black text-white">
+    <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white p-4">
+      {/* Contenedor principal */}
       <div className="flex flex-col items-start mr-8 max-w-md">
-        {/* Contenedor para el título, botón y cuento */}
-        <h1 className="text-2xl mb-4">Space Invaders</h1>
+        <h1 className="text-2xl font-bold mb-4">Tetris</h1>
         <button
           onClick={handleBack}
           className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 mb-4"
@@ -22,24 +22,26 @@ export default function SpacePage() {
           Volver
         </button>
 
-        {/* Cuento */}
-        <div className="bg-gray-800 p-4 rounded-lg mt-4">
-          <h2 className="text-lg font-semibold mb-2">El cuento del Universo</h2>
+        {/* Cuadro de la historia */}
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold mb-2">La historia de Tetris</h2>
           <p className="text-sm leading-relaxed">
-            Había una vez en un rincón muy lejano del universo, una pequeña nave
-            espacial que exploraba galaxias. Su misión era buscar nuevos planetas 
-            y descubrir civilizaciones antiguas. A bordo, un valiente astronauta 
-            soñaba con hallar el planeta perfecto, donde las estrellas bailaban 
-            al compás del viento solar y los planetas brillaban con una luz dorada...
+            Tetris, uno de los videojuegos más icónicos de la historia, fue
+            creado en 1984 por Alexey Pajitnov en la Unión Soviética. Su
+            popularidad trascendió fronteras, convirtiéndose en un fenómeno
+            cultural. Con reglas simples pero una profundidad estratégica
+            infinita, Tetris desafía tanto a la mente como a los reflejos.
             <br /><br />
-            ...un día, entre cometas y nebulosas, descubrió algo increíble...
+            Hoy, el juego sigue siendo un símbolo de la evolución de los
+            videojuegos, uniendo generaciones con su inconfundible mecánica de
+            apilar bloques.
           </p>
         </div>
       </div>
 
-      {/* Componente del juego alineado a la derecha */}
-      <div className="flex justify-center">
-        <TetrisGame />
+      {/* Contenedor del juego */}
+      <div className="flex justify-center items-center bg-gray-800 p-6 rounded-lg shadow-md">
+        <TetrisGame /> {/* Asegúrate de usar el nombre correcto del componente */}
       </div>
     </div>
   );
