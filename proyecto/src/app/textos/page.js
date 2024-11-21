@@ -1,47 +1,69 @@
 "use client";
 
-import { useLanguage } from '../context/LanguageContext'; // Ajusta la ruta para importar el contexto de idioma
-import Header from '../components/header';
-import Footer from '../components/footer';
-import Link from 'next/link'; // Importa el componente Link para la navegación
+import { useState, useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext"; // Ajusta la ruta para importar el contexto de idioma
+import Header from "../components/header";
+import Footer from "../components/footer";
+import librosData from "../../data/libros.json"; // Importa los datos del JSON
 
 export default function Textos() {
   const { translations } = useLanguage(); // Obtener las traducciones del contexto
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState(librosData.libros); // Estado para almacenar libros filtrados
+
+  // Función para manejar la entrada en la barra de búsqueda
+  const handleSearch = (event) => {
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
+
+    // Filtrar los libros según el término de búsqueda
+    if (term) {
+      const filtered = librosData.libros.filter(
+        (libro) =>
+          libro.nombre.toLowerCase().includes(term) ||
+          libro.author.toLowerCase().includes(term)
+      );
+      setFilteredBooks(filtered);
+    } else {
+      setFilteredBooks(librosData.libros); // Mostrar todos los libros si no hay término de búsqueda
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col text-white bg-cover bg-center" style={{ backgroundImage: "url('/fondo.png')" }}>
+    <div
+      className="min-h-screen flex flex-col bg-cover bg-center"
+      style={{ backgroundImage: "url('/fondo.png')" }}
+    >
       <Header />
 
-      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8">
-        <div className="bg-gray-700 bg-opacity-60 p-8 rounded-lg shadow-xl text-center w-full max-w-md">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {translations.mainTextTitle} {/* Título traducido */}
-          </h1>
+      <main className="flex-grow flex flex-col items-center px-4 md:px-8">
+        {/* Contenedor para el buscador */}
+        <div className="w-full max-w-3xl mt-6">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Busca por título o autor..."
+            className="w-full p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          />
+        </div>
 
-          {/* Botones para acceder a los diferentes textos */}
-          <div className="mt-6 space-y-4">
-            <p className="text-lg mb-4">{translations.texts}</p> {/* Breve introducción o descripción */}
-
-            {/* Lista de botones que dirigen a diferentes cuentos */}
-            <Link href="/arc/app/textos/cuento1">
-              <button className="w-full bg-blue-600 py-2 px-4 rounded hover:bg-blue-500">
-                {translations.story1Title} {/* Traducción del título del cuento 1 */}
-              </button>
-            </Link>
-
-            <Link href="/arc/app/textos/cuento2">
-              <button className="w-full bg-blue-600 py-2 px-4 rounded hover:bg-blue-500">
-                {translations.story2Title} {/* Traducción del título del cuento 2 */}
-              </button>
-            </Link>
-
-            {/* Agrega más botones para cada cuento o documento */}
-            <Link href="/arc/app/textos/documento">
-              <button className="w-full bg-blue-600 py-2 px-4 rounded hover:bg-blue-500">
-                {translations.documentTitle} {/* Traducción del título del documento */}
-              </button>
-            </Link>
-          </div>
+        {/* Contenedor para los libros */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          {filteredBooks.map((libro, index) => (
+            <div
+              key={index}
+              className="bg-gray-700 bg-opacity-80 p-4 rounded-lg shadow-lg flex flex-col items-center text-center"
+            >
+              <img
+                src={libro.foto}
+                alt={libro.nombre}
+                className="w-32 h-40 object-cover mb-4 rounded"
+              />
+              <h2 className="text-xl font-semibold">{libro.nombre}</h2>
+              <p className="text-sm text-gray-300">{libro.author}</p>
+            </div>
+          ))}
         </div>
       </main>
 
