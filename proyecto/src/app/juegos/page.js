@@ -33,7 +33,7 @@ export default function Home() {
           </h1>
 
           {/* Contenedor de los botones de los juegos */}
-          <div className="mt-6 flex space-x-4 flex-col"> 
+          <div className="mt-6 flex space-x-0 flex-col"> 
             {/* Botón para ir a la sección de Snake */}
             <Link href="/juegos/snake">
               <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
