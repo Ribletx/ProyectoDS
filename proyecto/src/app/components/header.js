@@ -53,8 +53,8 @@ export default function Header() {
           </button>
         </Link>
 
-        {/* Botón para cambiar idioma */}
-        <div className="relative">
+        {/* Menú desplegable con el idioma */}
+        <div className="relative z-10">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="flex items-center text-white px-4 py-2 rounded hover:bg-gray-800 transition-all duration-300"
@@ -65,7 +65,7 @@ export default function Header() {
 
           {/* Menú desplegable con los idiomas */}
           {isMenuOpen && (
-            <div className="absolute bg-white text-black mt-2 rounded w-32">
+            <div className="absolute bg-white text-black mt-2 rounded w-32 z-20">
               <button
                 onClick={() => handleLanguageChange('es')}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-200"
