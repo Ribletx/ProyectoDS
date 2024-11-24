@@ -24,6 +24,9 @@ const es = {
   backButton: "Regresar", // Botón para regresar
   gameButton: "Juegos",
   textButton: "Textos",
+
+  //textos
+  searchPlaceholder: "Busca por título o autor...",
 };
 
 export default es;

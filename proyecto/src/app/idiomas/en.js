@@ -19,6 +19,9 @@ const en = {
   footerText: "© {year} Our Footer. Like if you read this. All rights reserved.",
   gameButton: "Games",
   textButton: "Texts",
+
+  // Textos
+  searchPlaceholder: "Search by title or author...",
 };
 
 export default en;

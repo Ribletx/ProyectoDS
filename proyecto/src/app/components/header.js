@@ -1,7 +1,7 @@
 import { useLanguage } from '../context/LanguageContext';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaHome } from 'react-icons/fa'; // Importa el ícono de "Home" (Casa)
+import { FaHome } from 'react-icons/fa';
 
 export default function Header() {
   const { translations, changeLanguage } = useLanguage();
@@ -88,23 +88,20 @@ export default function Header() {
         {translations.headerTitle}
       </h1>
 
-      <div className="flex items-center space-x-2 mt-4 sm:mt-0">
+      <div className="flex items-center space-x-4 mt-4 sm:mt-0">
         {username ? (
           <>
-            {showCredentialCard ? (
-              <div className="bg-gray-800 text-gray-200 p-3 rounded-lg">
-                <p className="text-sm font-bold">Usuario:</p>
-                <p className="text-lg">{username}</p>
-              </div>
-            ) : (
-              <span className="text-gray-300 text-sm sm:text-base">{translations.welcomeMessage.replace('{name}', username)}</span>
-            )}
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105"
-            >
-              {translations.logout}
-            </button>
+            <div className="bg-gray-800 text-gray-200 p-3 rounded-lg inline-flex items-center space-x-3">
+              <p className="text-base font-semibold">
+                {translations.welcomeMessage.replace('{name}', username)}
+              </p>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm font-semibold transition transform hover:scale-105"
+              >
+                {translations.logout}
+              </button>
+            </div>
           </>
         ) : (
           <>
