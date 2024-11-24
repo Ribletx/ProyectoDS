@@ -18,6 +18,12 @@ export default function Login() {
         setPasswordError(false);
         setErrorMessage("");
 
+        // Validación de campos vacíos
+        if (!username || !password) {
+            setErrorMessage(language === "es" ? "Por favor, complete todos los campos." : "Please fill in all fields.");
+            return;
+        }
+
         const res = await fetch("/api/login", {
             method: "POST",
             body: JSON.stringify({ username, password }),

@@ -10,5 +10,13 @@
   {
     "username": "batracio",
     "password": "$2a$10$/6sGpjQMJUtEhzveHaI/e.6xT2Z2mcSipupHDf1cdZXDxT/l5lIMa"
+  },
+  {
+    "username": "juan",
+    "password": "$2a$10$PFEAkPPJ0NfA4l1K0ArC9eWktMvuD7AAw8Atd7PIAIXAINu2xyHC6"
+  },
+  {
+    "username": "dsad",
+    "password": "$2a$10$LARiTDCIYZMiotSXOTLwUuudJ2kPfZi5ORYByrgxS1npgxiW/Eqee"
   }
 ]

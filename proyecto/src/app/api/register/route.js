@@ -1,50 +1,46 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+// src/app/api/register/route.js
 import bcrypt from 'bcryptjs';
+import User from '../../../models/User'; // Importamos el modelo User
+import connectDB from '../../../config/db'; // Importamos la función para conectar con la base de datos
+
+// Conectar a la base de datos al iniciar la petición
+connectDB();
 
 export async function POST(req) {
     const { username, password } = await req.json();
-    
-    const filePath = path.join(process.cwd(), 'src/data/users.json');
-    let users = [];
-//
-    // Leer el archivo JSON y manejar errores
-    try {
-        const fileData = await fs.readFile(filePath, 'utf-8');
-        users = JSON.parse(fileData);
-    } catch (error) {
-        return new Response(JSON.stringify({ message: "Error al leer los usuarios." }), {
-            status: 500,
-        });
-    }
 
-    // Verificar si el usuario ya existe
-    const existingUser = users.find((u) => u.username === username);
-    if (existingUser) {
-        return new Response(JSON.stringify({ message: "El usuario ya existe." }), {
+    // Validación
+    if (!username || !password) {
+        return new Response(JSON.stringify({ message: 'Por favor, complete todos los campos.' }), {
             status: 400,
         });
     }
 
-    // Hash de la contraseña
-    const hashPass = await bcrypt.hash(password, 10);
-    const newUser = {
-        username,
-        password: hashPass,
-    };
-
-    users.push(newUser); // Agregar nuevo usuario al array
-
-    // Guardar los usuarios en el archivo JSON y manejar errores
-    try {
-        await fs.writeFile(filePath, JSON.stringify(users, null, 2)); // Agrega una mejor legibilidad
-    } catch (error) {
-        return new Response(JSON.stringify({ message: "Error al guardar el usuario." }), {
-            status: 500,
+    // Verificar si el usuario ya existe en la base de datos
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return new Response(JSON.stringify({ message: 'El usuario ya existe.' }), {
+            status: 400,
         });
     }
 
-    return new Response(JSON.stringify({ message: "Usuario creado con éxito." }), {
-        status: 200,
+    // Crear un nuevo usuario con el hash de la contraseña
+    const hashPass = await bcrypt.hash(password, 10);
+    const newUser = new User({
+        username,
+        password: hashPass,
     });
+
+    try {
+        // Guardamos el nuevo usuario en la base de datos
+        await newUser.save();
+        return new Response(JSON.stringify({ message: 'Usuario creado con éxito.' }), {
+            status: 200,
+        });
+    } catch (error) {
+        console.error('Error al guardar el usuario:', error);
+        return new Response(JSON.stringify({ message: 'Error al guardar el usuario.' }), {
+            status: 500,
+        });
+    }
 }
