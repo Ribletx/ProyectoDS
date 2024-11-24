@@ -11,14 +11,16 @@ export default function Home() {
   return (
     <div 
       className="min-h-screen flex flex-col text-white bg-cover bg-center" 
-      style={{ backgroundImage: "url('/fondo.png')" }}
+      style={{ 
+        backgroundImage: "url('/mario.gif')"
+      }}
     >
       <Header />
 
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8">
-        <div className="bg-gray-700 bg-opacity-60 p-8 rounded-lg shadow-xl text-center w-full max-w-md">
+        <div className="bg-gray-700 bg-opacity-90 p-8 my-5 rounded-lg shadow-xl text-center w-full max-w-md">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {translations.mainGameTitle} {/* Título traducido */}
+            {translations.mainGamseTitle} {/* Título traducido */}
           </h1>
 
           {/* Contenedor de los botones de los juegos */}
