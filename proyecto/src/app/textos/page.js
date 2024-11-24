@@ -43,12 +43,8 @@ export default function Textos() {
   };
 
   // Solo cambiamos el tamaño de la imagen de fondo dependiendo del ancho de la ventana
-  let backgroundSize = "auto 20%"; // Tamaño predeterminado para pantallas pequeñas
-  if (windowWidth > 1024) {
-    backgroundSize = "auto 108%"; // Tamaño para pantallas grandes
-  } else if (windowWidth >= 600 && windowWidth <= 1024) {
-    backgroundSize = "auto 40%"; // Tamaño intermedio para pantallas medianas
-  }
+  let backgroundSize = "cover"; // Usamos "cover" para que la imagen se ajuste al tamaño de la ventana
+  let backgroundPosition = "center"; // Mantener la imagen centrada
 
   // Verificamos si solo hay un libro
   const isSingleBook = filteredBooks.length === 1;
@@ -57,9 +53,10 @@ export default function Textos() {
     <div
       className="min-h-screen flex flex-col bg-cover bg-center"
       style={{
-        backgroundImage: "url('/libr2.jpg')",
-        backgroundPositionY: "center", // Fondo fijo centrado
-        backgroundSize: backgroundSize, // Aplicamos el tamaño dinámico basado solo en el tamaño de la ventana
+        backgroundImage: "url('/libr4.jpg')",
+        backgroundPosition: backgroundPosition, // Fondo centrado
+        backgroundSize: backgroundSize, // Fondo ajustado al tamaño de la ventana
+        backgroundAttachment: "fixed", // Fondo fijo al hacer scroll
       }}
     >
       <Header />

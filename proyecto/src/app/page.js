@@ -4,9 +4,18 @@ import { useLanguage } from './context/LanguageContext'; // Ajusta la ruta para 
 import Header from './components/header';
 import Footer from './components/footer';
 import Link from "next/link";
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const { translations } = useLanguage(); // Obtener las traducciones del contexto
+  const [isMounted, setIsMounted] = useState(false); // Estado para controlar la hidratación
+
+  // Asegurarse de que el componente solo se renderice en el cliente
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null; // No renderizar nada hasta que se haya montado el componente en el cliente
 
   return (
     <div 
