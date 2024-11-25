@@ -42,21 +42,14 @@ export default function Textos() {
     }
   };
 
-  // Solo cambiamos el tamaño de la imagen de fondo dependiendo del ancho de la ventana
-  let backgroundSize = "cover"; // Usamos "cover" para que la imagen se ajuste al tamaño de la ventana
-  let backgroundPosition = "center"; // Mantener la imagen centrada
-
-  // Verificamos si solo hay un libro
-  const isSingleBook = filteredBooks.length === 1;
-
   return (
     <div
       className="min-h-screen flex flex-col bg-cover bg-center"
       style={{
         backgroundImage: "url('/libr4.jpg')",
-        backgroundPosition: backgroundPosition, // Fondo centrado
-        backgroundSize: backgroundSize, // Fondo ajustado al tamaño de la ventana
-        backgroundAttachment: "fixed", // Fondo fijo al hacer scroll
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
       }}
     >
       <Header />
@@ -73,29 +66,28 @@ export default function Textos() {
         </div>
 
         <div
-          className={`grid grid-cols-1 md:grid-cols-3 gap-6 my-8 ${isSingleBook ? "flex justify-center" : ""}`}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8"
           style={{
-            // Aseguramos que las columnas no se desborden
-            padding: "0 10px", // Padding horizontal
-            boxSizing: "border-box", // Aseguramos que el padding no cause desbordamiento
+            padding: "0 10px",
+            boxSizing: "border-box",
           }}
         >
           {filteredBooks.map((libro, index) => (
             <div
               key={index}
               className="bg-gray-800 bg-opacity-95 p-4 rounded-lg shadow-lg flex flex-col items-center text-center transition-all duration-300 transform hover:bg-gray-700 hover:scale-105 hover:shadow-xl"
-              style={{
-                width: isSingleBook ? "400px" : "100%", // Si hay un solo libro, el ancho será fijo
-                maxWidth: "300px", // Máximo tamaño para evitar que se estire demasiado
-                margin: isSingleBook ? "0 auto" : "", // Centrar si hay solo un libro
-                backgroundSize: isSingleBook ? "100%" : backgroundSize, // Fondo centrado si es un solo libro
-              }}
             >
-              <img
-                src={libro.foto}
-                alt={libro.nombre}
-                className="w-32 h-42 object-cover my-4 rounded transition-all duration-300"
-              />
+              <a
+                href={libro.pdf ? `/pdf/${libro.pdf}` : "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={libro.foto}
+                  alt={libro.nombre}
+                  className="w-32 h-42 object-cover my-4 rounded transition-all duration-300"
+                />
+              </a>
               <h2 className="text-xl font-semibold text-gray-300 transition-all duration-300 hover:text-white">
                 {libro.nombre}
               </h2>

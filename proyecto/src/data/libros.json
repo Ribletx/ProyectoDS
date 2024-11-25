@@ -12,9 +12,10 @@
             "foto" : "https://images.cdn3.buscalibre.com/fit-in/360x360/54/49/5449ba87a3e457a22dd6d0972b5c261e.jpg"
         },
         {
-            "nombre" : "1984",
+            "nombre": "1984",
             "author": "George Orwell",
-            "foto" : "https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg"
+            "foto": "https://images.cdn1.buscalibre.com/fit-in/360x360/b0/39/b039af065268818b7bd3b0e016f8db65.jpg",
+            "pdf": "orwell_george_1984.pdf"
         },
         {
             "nombre" : "Un mundo feliz",
