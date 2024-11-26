@@ -4,7 +4,8 @@
         {
             "nombre" : "Cien años de soledad",
             "author": "Gabriel García Márquez",
-            "foto" : "https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg"
+            "foto" : "https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg",
+            "pdf" : "Cien anos de soledad (Edicion ilustrada) - Gabriel Garcia Marquez.pdf"
         },
         {
             "nombre" : "El señor de los anillos (Trilogía)",
@@ -20,7 +21,8 @@
         {
             "nombre" : "Un mundo feliz",
             "author": "Aldous Huxley",
-            "foto" : "https://images.cdn1.buscalibre.com/fit-in/360x360/c1/8c/c18cdeb80fa6f9a212a1cc5639e94c6d.jpg"
+            "foto" : "https://images.cdn1.buscalibre.com/fit-in/360x360/c1/8c/c18cdeb80fa6f9a212a1cc5639e94c6d.jpg",
+            "pdf" : "Un-mundo-feliz-Huxley.pdf"
         },
         {
             "nombre" : "Orgullo y prejuicio",
@@ -70,7 +72,8 @@
         {
             "nombre" : "El Principito",
             "author": "Antoine de Saint-Exupéry.",
-            "foto" : "https://i.pinimg.com/originals/9a/a4/b1/9aa4b16195770cbb27ef3b2447d11afc.jpg"
+            "foto" : "https://i.pinimg.com/originals/9a/a4/b1/9aa4b16195770cbb27ef3b2447d11afc.jpg",
+            "pdf" : "el principito.pdf"
         },
         {
             "nombre" : "El proceso",
