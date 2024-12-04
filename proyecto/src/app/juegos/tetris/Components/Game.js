@@ -1,5 +1,5 @@
-import Menu from "../Components/Menu";
-import Tetris from "../Components/Tetris";
+import Menu from "../components/Menu";
+import Tetris from "../components/Tetris";
 
 import { useGameOver } from "../hooks/useGameOver";
 

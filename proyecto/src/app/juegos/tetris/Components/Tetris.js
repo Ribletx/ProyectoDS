@@ -1,9 +1,9 @@
 import "./Tetris.css";
 
-import Board from "../Components/Board";
-import GameController from "../Components/GameController";
-import GameStats from "../Components/GameStats";
-import Previews from "../Components/Previews";
+import Board from "../components/Board";
+import GameController from "../components/GameController";
+import GameStats from "../components/GameStats";
+import Previews from "../components/Previews";
 
 import { useBoard } from "../hooks/useBoard";
 import { useGameStats } from "../hooks/useGameStats";
