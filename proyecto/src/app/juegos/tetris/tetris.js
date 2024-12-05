@@ -1,6 +1,6 @@
 import "../tetris/styles.css";
 
-import Game from "../tetris/components/Game";
+import Game from "./components/Game";
 
 export default function App() {
   return (
