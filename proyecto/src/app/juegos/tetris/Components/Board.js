@@ -1,6 +1,6 @@
-import "./Board.css";
+import "./board.css";
 
-import BoardCell from "../components/BoardCell";
+import BoardCell from "./BoardCell";
 
 const Board = ({ board }) => {
   const boardStyles = {

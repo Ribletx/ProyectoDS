@@ -1,6 +1,6 @@
 import "./Tetris.css";
 
-import Board from "../components/Board";
+import Board from "./Board";
 import GameController from "../components/GameController";
 import GameStats from "../components/GameStats";
 import Previews from "../components/Previews";

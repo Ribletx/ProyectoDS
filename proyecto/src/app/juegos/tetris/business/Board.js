@@ -1,6 +1,6 @@
-import { defaultCell } from "../business/Cell";
-import { movePlayer } from "../business/PlayerController";
-import { transferToBoard } from "../business/Tetrominoes";
+import { defaultCell } from "./Cell";
+import { movePlayer } from "./PlayerController";
+import { transferToBoard } from "./Tetrominoes";
 
 export const buildBoard = ({ rows, columns }) => {
   const builtRows = Array.from({ length: rows }, () =>

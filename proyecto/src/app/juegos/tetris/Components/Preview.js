@@ -4,7 +4,7 @@ import React from "react";
 import { buildBoard } from "../business/Board";
 import { transferToBoard } from "../business/Tetrominoes";
 
-import BoardCell from "../components/BoardCell";
+import BoardCell from "./BoardCell";
 
 const Preview = ({ tetromino, index }) => {
   const { shape, className } = tetromino;
