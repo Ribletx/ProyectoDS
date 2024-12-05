@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import "../tetris/styles.css"; // Importa los estilos directamente
-import Menu from "./components/Menu";
-import Tetris from "./components/Tetris";
-import { useGameOver } from "./hooks/useGameOver";
+import Menu from "../tetris/components/Menu";
+import Tetris from "../tetris/components/Tetris";
+import { useGameOver } from "../tetris/hooks/useGameOver";
 
 export default function TetrisPage() {
   const router = useRouter();
