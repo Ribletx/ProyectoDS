@@ -71,11 +71,6 @@ export default function Home() {
               </button>
             </Link>
 
-            <Link href="/juegos/tetris">
-              <button className="bg-blue-300 hover:bg-blue-400 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
-                {translations.playtetris}
-              </button>
-            </Link>
           </div>
         </div>
       </main>
