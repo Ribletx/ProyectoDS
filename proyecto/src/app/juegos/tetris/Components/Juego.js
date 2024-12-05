@@ -3,13 +3,13 @@ import Tetris from "./tetris";
 
 import { useGameOver } from "../hooks/useGameOver";
 
-const Game = ({ rows, columns }) => {
+const Juego = ({ rows, columns }) => {
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
 
   const start = () => resetGameOver();
 
   return (
-    <div className="Game">
+    <div className="Juego">
       {gameOver ? (
         <Menu onClick={start} />
       ) : (
@@ -19,4 +19,4 @@ const Game = ({ rows, columns }) => {
   );
 };
 
-export default Game;
+export default Juego;

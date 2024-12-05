@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import "../tetris/styles.css"; // Importa los estilos directamente
-import "./components/Game"// Asegúrate de que esta ruta sea correcta
+import "./components/Juego"// Asegúrate de que esta ruta sea correcta
 
 export default function TetrisPage() {
   const router = useRouter();
