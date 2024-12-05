@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import TetrisGame from "./tetris"; // Asegúrate de que el nombre sea correcto
+import "../tetris/styles.css"; // Importa los estilos directamente
+import Game from "./components/Game"; // Asegúrate de que esta ruta sea correcta
 
 export default function TetrisPage() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function TetrisPage() {
 
       {/* Contenedor del juego */}
       <div className="flex justify-center items-center bg-gray-800 p-6 rounded-lg shadow-md">
-        <TetrisGame /> {/* Asegúrate de usar el nombre correcto del componente */}
+        <Game rows={20} columns={10} /> {/* Juego de Tetris */}
       </div>
     </div>
   );
