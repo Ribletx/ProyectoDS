@@ -2,14 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import "../tetris/styles.css"; // Importa los estilos directamente
-import "./components/Juego"// Asegúrate de que esta ruta sea correcta
+import Menu from "./components/Menu";
+import Tetris from "./components/Tetris";
+import { useGameOver } from "./hooks/useGameOver";
 
 export default function TetrisPage() {
   const router = useRouter();
+  const [gameOver, setGameOver, resetGameOver] = useGameOver();
 
   const handleBack = () => {
     router.back();
   };
+
+  const start = () => resetGameOver();
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white p-4">
@@ -42,7 +47,11 @@ export default function TetrisPage() {
 
       {/* Contenedor del juego */}
       <div className="flex justify-center items-center bg-gray-800 p-6 rounded-lg shadow-md">
-        <Game rows={20} columns={10} /> {/* Juego de Tetris */}
+        {gameOver ? (
+          <Menu onClick={start} />
+        ) : (
+          <Tetris rows={20} columns={10} setGameOver={setGameOver} />
+        )}
       </div>
     </div>
   );
