@@ -16,7 +16,7 @@ export async function POST(req) {
         });
     }
 
-    // Verificar si el usuario ya existe en la base de datos
+    // Verificar si el usuario ya existe en la base de <ñ>
     const existingUser = await User.findOne({ username });
     if (existingUser) {
         return new Response(JSON.stringify({ message: 'El usuario ya existe.' }), {
