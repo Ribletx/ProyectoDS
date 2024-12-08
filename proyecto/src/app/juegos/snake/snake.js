@@ -1,33 +1,32 @@
-"use client"; // Añade esta línea para marcar el archivo como cliente
+"use client";
 
-// a futuro quiero agregar que la puntuación del juego se vaya guardando según el usuario que este jugando
-import React, { useEffect, useRef, useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext'; // Importamos el contexto de idioma
+import React, { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 const SnakeGame = () => {
-  const { translations } = useLanguage(); // Obtenemos las traducciones del contexto
+  const { translations } = useLanguage();
   const canvasRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);
-  const [canChangeDirection, setCanChangeDirection] = useState(true);
-  const [appleCount, setAppleCount] = useState(0); // Contador de manzanas
+  const [appleCount, setAppleCount] = useState(0);
 
   const generateFood = (snake, canvasWidth, canvasHeight) => {
     let newFood;
     do {
       newFood = {
-        x: Math.floor(Math.random() * (canvasWidth)),
-        y: Math.floor(Math.random() * (canvasHeight)),
+        x: Math.floor(Math.random() * canvasWidth),
+        y: Math.floor(Math.random() * canvasHeight),
       };
-    } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+    } while (snake.some((segment) => segment.x === newFood.x && segment.y === newFood.y));
     return newFood;
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     let snake = [{ x: 10, y: 10 }];
-    let direction = { x: 1, y: 0 }; // Movimiento inicial a la derecha
+    let direction = { x: 1, y: 0 }; // Movimiento inicial
+    const directionQueue = []; // Cola de direcciones
     const scale = 20;
     const canvasWidth = canvas.width / scale;
     const canvasHeight = canvas.height / scale;
@@ -35,26 +34,36 @@ const SnakeGame = () => {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = "red";
       ctx.fillRect(food.x * scale, food.y * scale, scale, scale);
-      ctx.fillStyle = 'green';
+      ctx.fillStyle = "green";
       snake.forEach((segment) => {
         ctx.fillRect(segment.x * scale, segment.y * scale, scale, scale);
       });
     };
 
     const checkCollision = (head) => {
-      return snake.some(segment => segment.x === head.x && segment.y === head.y);
+      return snake.some((segment) => segment.x === head.x && segment.y === head.y);
     };
 
     const update = () => {
       if (gameOver) return;
+
+      // Procesar la cola de direcciones
+      if (directionQueue.length > 0) {
+        const newDirection = directionQueue.shift();
+        // Evitar movimientos opuestos
+        if (!(direction.x === -newDirection.x && direction.y === -newDirection.y)) {
+          direction = newDirection;
+        }
+      }
 
       const newHead = {
         x: snake[0].x + direction.x,
         y: snake[0].y + direction.y,
       };
 
+      // Manejo de bordes
       if (newHead.x < 0) newHead.x = canvasWidth - 1;
       else if (newHead.x >= canvasWidth) newHead.x = 0;
       else if (newHead.y < 0) newHead.y = canvasHeight - 1;
@@ -67,50 +76,52 @@ const SnakeGame = () => {
 
       if (newHead.x === food.x && newHead.y === food.y) {
         snake.unshift(newHead);
-        setAppleCount(prevCount => prevCount + 1); // Aumenta el contador de manzanas
-        food = generateFood(snake, canvasWidth, canvasHeight); // Genera nueva comida
+        setAppleCount((prevCount) => prevCount + 1);
+        food = generateFood(snake, canvasWidth, canvasHeight);
       } else {
         snake.unshift(newHead);
-        snake.pop(); // Elimina la última parte de la serpiente
+        snake.pop();
       }
 
       draw();
-      setCanChangeDirection(true); // Permite cambiar de dirección después de actualizar la posición
     };
 
     const handleKeyDown = (event) => {
-      if (!canChangeDirection) return;
+      const newDirection = (() => {
+        switch (event.key) {
+          case "ArrowUp":
+            return direction.y === 0 ? { x: 0, y: -1 } : null;
+          case "ArrowDown":
+            return direction.y === 0 ? { x: 0, y: 1 } : null;
+          case "ArrowLeft":
+            return direction.x === 0 ? { x: -1, y: 0 } : null;
+          case "ArrowRight":
+            return direction.x === 0 ? { x: 1, y: 0 } : null;
+          default:
+            return null;
+        }
+      })();
 
-      switch (event.key) {
-        case 'ArrowUp':
-          if (direction.y === 0) direction = { x: 0, y: -1 }; // Cambia dirección hacia arriba si no va hacia abajo
-          break;
-        case 'ArrowDown':
-          if (direction.y === 0) direction = { x: 0, y: 1 }; // Cambia dirección hacia abajo si no va hacia arriba
-          break;
-        case 'ArrowLeft':
-          if (direction.x === 0) direction = { x: -1, y: 0 }; // Cambia dirección hacia la izquierda si no va hacia la derecha
-          break;
-        case 'ArrowRight':
-          if (direction.x === 0) direction = { x: 1, y: 0 }; // Cambia dirección hacia la derecha si no va hacia la izquierda
-          break;
+      if (newDirection) {
+        const lastDirection = directionQueue.length > 0 ? directionQueue[directionQueue.length - 1] : direction;
+        if (!(lastDirection.x === -newDirection.x && lastDirection.y === -newDirection.y)) {
+          directionQueue.push(newDirection);
+        }
       }
-      setCanChangeDirection(false); // Bloquea el cambio de dirección hasta que se actualice la posición
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     const interval = setInterval(update, 100);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [gameOver]); // Dependencias solo del estado del juego
+  }, [gameOver]);
 
   const restartGame = () => {
     setGameOver(false);
-    setAppleCount(0); // Reinicia el contador de manzanas
-    setCanChangeDirection(true); // Permite el cambio de dirección al reiniciar
+    setAppleCount(0);
   };
 
   return (
@@ -118,15 +129,23 @@ const SnakeGame = () => {
       <h1 className="text-4xl mb-4">{translations.snakeGameTitle || "Juego de Snake"}</h1>
       <canvas ref={canvasRef} width={400} height={400} className="border border-white"></canvas>
       <div className="flex flex-col items-center mt-4">
-        <h2 className="text-xl">{translations.appleCountLabel || "Manzanas recolectadas:"} {appleCount}</h2> {/* Muestra el contador de manzanas */}
+        <h2 className="text-xl">
+          {translations.appleCountLabel || "Manzanas recolectadas:"} {appleCount}
+        </h2>
         {gameOver && (
           <>
             <h2 className="text-2xl text-red-500 mt-4">{translations.gameOver || "Game Over"}</h2>
             <div className="flex space-x-4 mt-2">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={restartGame}>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+                onClick={restartGame}
+              >
                 {translations.restartButton || "Reiniciar"}
               </button>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+                onClick={() => window.history.back()}
+              >
                 {translations.backButton || "Regresar"}
               </button>
             </div>
@@ -134,7 +153,10 @@ const SnakeGame = () => {
         )}
       </div>
       {!gameOver && (
-        <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg" onClick={() => window.history.back()}>
+        <button
+          className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+          onClick={() => window.history.back()}
+        >
           {translations.backButton || "Regresar"}
         </button>
       )}
