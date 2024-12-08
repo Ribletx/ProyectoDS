@@ -9,6 +9,32 @@ const SnakeGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [appleCount, setAppleCount] = useState(0);
 
+  // Función para enviar el puntaje al backend
+  const updateHighscore = async (score) => {
+    const username = localStorage.getItem("username");
+
+    if (!username) {
+      console.log("No se encontró el username");
+      return;
+    }
+
+    const response = await fetch("/api/puntaje", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, score }) // Enviamos el username y el score al backend
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('Highscore actualizado', data.highscore);
+    } else {
+      console.log('Error al actualizar el highscore:', data.error);
+    }
+  };
+
   const generateFood = (snake, canvasWidth, canvasHeight) => {
     let newFood;
     do {
@@ -47,7 +73,11 @@ const SnakeGame = () => {
     };
 
     const update = () => {
-      if (gameOver) return;
+      if (gameOver) {
+        // Llamada para actualizar el highscore solo cuando el juego termine
+        updateHighscore(appleCount);  // Enviamos el puntaje actual
+        return;
+      }
 
       // Procesar la cola de direcciones
       if (directionQueue.length > 0) {

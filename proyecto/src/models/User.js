@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        highscore_snake: {
+            type: Number,
+            default: 0, // Inicializamos el puntaje de snake con 0
+        },
     },
     {
         timestamps: true, // Agrega campos de createdAt y updatedAt
