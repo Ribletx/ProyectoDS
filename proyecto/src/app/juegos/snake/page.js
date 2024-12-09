@@ -1,17 +1,22 @@
 "use client";
-import SnakeGame from './snake'; // El componente del juego
+import SnakeGame from './snake';
+import TopScores from './TopScores'; // Nuevo componente que crearemos
 
 const SnakePage = () => {
   return (
     <div 
-      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden bg-cover bg-center bg-no-repeat" // Evita que la pantalla se desplace
-      style={{ backgroundImage: "url('/fondo.png')" }} // Fondo personalizado
+      className="min-h-screen flex flex-col bg-gray-800 overflow-hidden bg-cover bg-center bg-no-repeat" 
+      style={{ backgroundImage: "url('/fondo.png')" }}
     >
-
-      {/* Contenedor del juego */}
-      <div className="flex-grow flex items-center justify-center overflow-hidden">
-        <div className="w-full h-full max-w-4xl max-h-[80vh]">
-          <SnakeGame /> {/* El componente de SnakeGame ahora está debajo del Header */}
+      <div className="flex-grow flex flex-col lg:flex-row items-center justify-center p-4 space-y-4 lg:space-y-0 lg:space-x-8">
+        {/* Contenedor flexible para pantallas grandes */}
+        <div className="w-full max-w-xl">
+          <SnakeGame />
+        </div>
+        
+        {/* Bloque de Top Scores */}
+        <div className="w-full max-w-md bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-xl p-0">
+          <TopScores />
         </div>
       </div>
     </div>

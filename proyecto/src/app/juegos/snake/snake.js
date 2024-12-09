@@ -117,6 +117,11 @@ const SnakeGame = () => {
     };
 
     const handleKeyDown = (event) => {
+
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault(); // This prevents page scrolling
+      }
+
       const newDirection = (() => {
         switch (event.key) {
           case "ArrowUp":
@@ -140,7 +145,7 @@ const SnakeGame = () => {
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, { passive: false }); // Note the { passive: false }
     const interval = setInterval(update, 100);
 
     return () => {
