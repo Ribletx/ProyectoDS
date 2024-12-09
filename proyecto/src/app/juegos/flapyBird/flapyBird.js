@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 
-
 const FlappyBirdGame = () => {
   const { translations } = useLanguage();
   const canvasRef = useRef(null);
@@ -14,52 +13,108 @@ const FlappyBirdGame = () => {
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
 
-  const generatePipe = () => {
-    const gap = 80;
-    const pipeWidth = 40;
-    const pipeHeight = Math.floor(Math.random() * (canvasRef.current.height - gap));
+  // Función para enviar el puntaje al backend
+  const updateHighscore = async (score) => {
+    const username = localStorage.getItem("username");
+
+    if (!username) {
+      console.log("No se encontró el username");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/puntaje", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, score, game: "flappybird" }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Highscore actualizado', data.highscore);
+      } else {
+        console.log('Error al actualizar el highscore:', data.error);
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
+  };
+
+  const generatePipe = (canvasWidth, canvasHeight) => {
+    const gap = 300; // Slightly larger gap between pipes for easier passage
+    const pipeWidth = 60;
+    const minPipeHeight = 50;
+    const maxPipeHeight = canvasHeight - gap - minPipeHeight;
+    const pipeHeight = Math.floor(Math.random() * (maxPipeHeight - minPipeHeight) + minPipeHeight);
 
     return {
-      x: canvasRef.current.width,
-      y: pipeHeight,
-      gap: gap,
+      x: canvasWidth,
+      topPipeHeight: pipeHeight,
+      bottomPipeHeight: canvasHeight - pipeHeight - gap,
       width: pipeWidth,
+      gap: gap,
     };
   };
 
   const gameLoop = () => {
     if (gameOver || !gameStarted) return;
 
+    const canvas = canvasRef.current;
+    
     setVelocity((prevVelocity) => prevVelocity + gravity);
     setBirdY((prevBirdY) => prevBirdY + velocity);
 
     setPipes((prevPipes) => {
       const updatedPipes = prevPipes.map((pipe) => ({
         ...pipe,
-        x: pipe.x - 2,
+        x: pipe.x - 3, // Slightly faster pipe movement
       }));
 
       if (updatedPipes[0].x < -updatedPipes[0].width) {
         updatedPipes.shift();
-        updatedPipes.push(generatePipe());
+        updatedPipes.push(generatePipe(canvas.width, canvas.height));
         setScore((prevScore) => prevScore + 1);
       }
 
       return updatedPipes;
     });
 
+    const birdLeft = 50;
+    const birdRight = birdLeft + 20;
+    const birdTop = birdY;
+    const birdBottom = birdY + 20;
+
     pipes.forEach((pipe) => {
+      const pipeLeft = pipe.x;
+      const pipeRight = pipe.x + pipe.width;
+
+      // Check collision with top pipe
       if (
-        (birdY < pipe.y || birdY + 20 > pipe.y + pipe.gap) && 
-        pipe.x < 50 &&
-        pipe.x + pipe.width > 0
+        birdRight > pipeLeft &&
+        birdLeft < pipeRight &&
+        birdTop < pipe.topPipeHeight
       ) {
         setGameOver(true);
+        updateHighscore(score);
+      }
+
+      // Check collision with bottom pipe
+      if (
+        birdRight > pipeLeft &&
+        birdLeft < pipeRight &&
+        birdBottom > canvas.height - pipe.bottomPipeHeight
+      ) {
+        setGameOver(true);
+        updateHighscore(score);
       }
     });
 
-    if (birdY > canvasRef.current.height || birdY < 0) {
+    if (birdY > canvas.height || birdY < 0) {
       setGameOver(true);
+      updateHighscore(score);
     }
   };
 
@@ -68,24 +123,23 @@ const FlappyBirdGame = () => {
     const ctx = canvas.getContext('2d');
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "yellow";
-      ctx.fillRect(50, birdY, 20, 20); // Dibuja el pájaro
+      // Sky blue background
+      ctx.fillStyle = "#87CEEB";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Bird
+      ctx.fillStyle = "yellow";
+      ctx.fillRect(50, birdY, 20, 20);
+
+      // Pipes
       pipes.forEach((pipe) => {
         ctx.fillStyle = "green";
-        // Dibuja las tuberías en forma de T
-        const trunkHeight = pipe.y; // La parte vertical (tronco) de la tubería
-        const baseHeight = 20; // Altura de la base de la T
-
-        // Tronco de la tubería (parte central)
-        ctx.fillRect(pipe.x, 0, pipe.width, trunkHeight); // Parte superior del tronco
-        ctx.fillRect(pipe.x, pipe.y + pipe.gap, pipe.width, canvas.height - pipe.y - pipe.gap); // Parte inferior del tronco
-
-        // Bases de la T (rectángulos horizontales)
-        const baseWidth = 60; // Ancho de las bases (más anchas que el tronco)
-        ctx.fillRect(pipe.x - (baseWidth - pipe.width) / 2, trunkHeight - baseHeight, baseWidth, baseHeight); // Base superior
-        ctx.fillRect(pipe.x - (baseWidth - pipe.width) / 2, pipe.y + pipe.gap, baseWidth, baseHeight); // Base inferior
+        
+        // Top pipe
+        ctx.fillRect(pipe.x, 0, pipe.width, pipe.topPipeHeight);
+        
+        // Bottom pipe
+        ctx.fillRect(pipe.x, canvas.height - pipe.bottomPipeHeight, pipe.width, pipe.bottomPipeHeight);
       });
     };
 
@@ -94,52 +148,62 @@ const FlappyBirdGame = () => {
 
   useEffect(() => {
     const gameInterval = setInterval(gameLoop, 20);
+    return () => {
+      clearInterval(gameInterval);
+    };
+  }, [gameOver, gameStarted, velocity, birdY, pipes]);
 
-    if (pipes.length === 0) {
-      setPipes([generatePipe()]);
+  const startGame = () => {
+    const canvas = canvasRef.current;
+    setGameStarted(true);
+    setGameOver(false);
+    setBirdY(canvas.height / 2);
+    setVelocity(0);
+    setPipes([
+      generatePipe(canvas.width, canvas.height),
+      generatePipe(canvas.width, canvas.height),
+      generatePipe(canvas.width, canvas.height)
+    ]);
+    setScore(0);
+  };
+
+  const restartGame = () => {
+    setGameStarted(false);
+    setGameOver(false);
+    setScore(0);
+  };
+
+  const handleKeyDown = (event) => {
+    // Prevent default scrolling
+    if (event.key === " " || event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
     }
 
-    return () => clearInterval(gameInterval);
-  }, [birdY, gameOver, pipes, gameStarted]);
-
-  const handleJump = () => {
-    if (!gameOver && gameStarted) {
-      setVelocity(-6);
+    if ((event.key === " " || event.key === "ArrowUp") && !gameOver) {
+      if (!gameStarted) {
+        startGame();
+      }
+      setVelocity(-6); // Decreased jump velocity for smoother jump
     }
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.code === 'Space') {
-        handleJump();
-      }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameOver, gameStarted]);
-
-  const restartGame = () => {
-    setBirdY(200);
-    setVelocity(0);
-    setPipes([generatePipe()]);
-    setScore(0);
-    setGameOver(false);
-  };
-
-  const startGame = () => {
-    setGameStarted(true);
-  };
+  }, [gameStarted, gameOver]);
 
   return (
-    <div className="flex flex-col items-center ">
-      <h1 className="text-2xl mb-2">{translations.flappyBirdTitle || "Flappy Bird"}</h1>
-      <canvas ref={canvasRef} width={250} height={400} className="border border-white mb-4 bg-blue-400"></canvas>
-      <div className="text-center  bg-black bg-opacity-60 p-8 rounded-xl">
-        <h2 className="text-lg text-white">{translations.scoreLabel || "Puntuación:"} {score}</h2>
+    <div className="min-h-screen flex flex-col bg-sky-500 text-white items-center justify-center">
+      <h1 className="text-4xl mb-4">{translations.flappyBirdGameTitle || "Juego de Flappy Bird"}</h1>
+      <canvas ref={canvasRef} width={400} height={600} className="border border-white"></canvas>
+      <div className="flex flex-col items-center mt-4">
+        <h2 className="text-xl">{translations.scoreLabel || "Puntaje:"} {score}</h2>
         {gameOver && (
           <>
-            <h2 className="text-lg text-red-500 mt-2">{translations.gameOver || "Game Over"}</h2>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg mt-2 " onClick={restartGame}>
+            <h2 className="text-2xl text-red-500 mt-4">{translations.gameOver || "Game Over"}</h2>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg mt-2" onClick={restartGame}>
               {translations.restartButton || "Reiniciar"}
             </button>
           </>

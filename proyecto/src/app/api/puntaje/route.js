@@ -1,49 +1,66 @@
-// src/app/api/puntaje/updateHighscore/route.js
-import connectDB from '../../../config/db'; // Importar la conexión a la base de datos
-import User from '../../../models/User'; // Importamos el modelo User
+import connectDB from '../../../config/db';
+import User from '../../../models/User';
+
+export async function GET(req) {
+  const urlParams = new URL(req.url).searchParams;
+  const game = urlParams.get('game') || 'snake'; // Por defecto, juego Snake
+
+  try {
+    await connectDB();
+    const scoreField = `highscore_${game}`;
+
+    const topScores = await User.find({ [scoreField]: { $gt: 0 } })
+      .sort({ [scoreField]: -1 })
+      .limit(5)
+      .select(`username ${scoreField}`);
+
+    return new Response(JSON.stringify(topScores), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error al obtener top scores:', error);
+    return new Response(JSON.stringify({ error: 'Error al obtener top scores' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+}
 
 export async function POST(req) {
   try {
-    const data = await req.json(); // Parse JSON body
-    const { username, score } = data;
+    const { username, score, game } = await req.json();
 
-    // Rest of your existing logic remains the same
-    if (!username || !score) {
-      return new Response(JSON.stringify({ error: 'Faltan parámetros: username o score' }), {
+    if (!username || !score || !game) {
+      return new Response(JSON.stringify({ error: 'Faltan parámetros: username, score o game' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
     }
 
     await connectDB();
-
+    const scoreField = `highscore_${game}`;
     const user = await User.findOne({ username });
 
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Usuario no encontrado' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    if (user) {
+      if (score > (user[scoreField] || 0)) {
+        user[scoreField] = score;
+        await user.save();
+      }
+    } else {
+      const newUser = new User({ username, [scoreField]: score });
+      await newUser.save();
     }
 
-    if (score > user.highscore_snake) {
-      user.highscore_snake = score;
-      await user.save();
-    }
-
-    return new Response(JSON.stringify({ 
-      message: 'Highscore actualizado', 
-      highscore: user.highscore_snake 
-    }), {
+    return new Response(JSON.stringify({ message: 'Highscore actualizado' }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
-
   } catch (error) {
     console.error('Error al procesar la solicitud:', error);
     return new Response(JSON.stringify({ error: 'Error al actualizar el highscore' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 }

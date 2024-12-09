@@ -23,7 +23,7 @@ const SnakeGame = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, score }) // Enviamos el username y el score al backend
+      body: JSON.stringify({ username, score, game: "snake" }),
     });
 
     const data = await response.json();
@@ -157,6 +157,7 @@ const SnakeGame = () => {
   const restartGame = () => {
     setGameOver(false);
     setAppleCount(0);
+    window.location.reload();
   };
 
   return (

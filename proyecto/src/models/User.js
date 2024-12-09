@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: 0, // Inicializamos el puntaje de snake con 0
         },
+        highscore_flappybird: {
+            type: Number,
+            default: 0,
+        }
     },
     {
         timestamps: true, // Agrega campos de createdAt y updatedAt
