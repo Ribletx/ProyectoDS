@@ -44,7 +44,7 @@ const FlappyBirdGame = () => {
   };
 
   const generatePipe = (canvasWidth, canvasHeight) => {
-    const gap = 300; // Slightly larger gap between pipes for easier passage
+    const gap = 300; // Espacio entre las tuberías
     const pipeWidth = 60;
     const minPipeHeight = 50;
     const maxPipeHeight = canvasHeight - gap - minPipeHeight;
@@ -56,6 +56,7 @@ const FlappyBirdGame = () => {
       bottomPipeHeight: canvasHeight - pipeHeight - gap,
       width: pipeWidth,
       gap: gap,
+      scored: false // Nuevo estado para controlar si ya se contabilizó el punto
     };
   };
 
@@ -63,21 +64,27 @@ const FlappyBirdGame = () => {
     if (gameOver || !gameStarted) return;
 
     const canvas = canvasRef.current;
-    
+
     setVelocity((prevVelocity) => prevVelocity + gravity);
     setBirdY((prevBirdY) => prevBirdY + velocity);
 
     setPipes((prevPipes) => {
       const updatedPipes = prevPipes.map((pipe) => ({
         ...pipe,
-        x: pipe.x - 3, // Slightly faster pipe movement
-      }));
+        x: pipe.x - 3, // Movimiento de las tuberías
+      })).filter(pipe => pipe.x > -pipe.width); // Eliminar tuberías fuera de la pantalla
 
-      if (updatedPipes[0].x < -updatedPipes[0].width) {
-        updatedPipes.shift();
-        updatedPipes.push(generatePipe(canvas.width, canvas.height));
-        setScore((prevScore) => prevScore + 1);
-      }
+      // Lógica de puntuación mejorada
+      const birdLeft = 50;
+      const birdRight = birdLeft + 20;
+
+      updatedPipes.forEach((pipe) => {
+        // Verificar si el pájaro pasó la tubería sin haber sido puntuado
+        if (!pipe.scored && birdRight > pipe.x + pipe.width) {
+          setScore((prevScore) => prevScore + 0.5);
+          pipe.scored = true; // Marcar como puntuada
+        }
+      });
 
       return updatedPipes;
     });
@@ -91,7 +98,7 @@ const FlappyBirdGame = () => {
       const pipeLeft = pipe.x;
       const pipeRight = pipe.x + pipe.width;
 
-      // Check collision with top pipe
+      // Verificar colisión con la parte superior de la tubería
       if (
         birdRight > pipeLeft &&
         birdLeft < pipeRight &&
@@ -101,7 +108,7 @@ const FlappyBirdGame = () => {
         updateHighscore(score);
       }
 
-      // Check collision with bottom pipe
+      // Verificar colisión con la parte inferior de la tubería
       if (
         birdRight > pipeLeft &&
         birdLeft < pipeRight &&
@@ -112,6 +119,7 @@ const FlappyBirdGame = () => {
       }
     });
 
+    // Verificar si el pájaro toca el suelo o se va fuera de la pantalla
     if (birdY > canvas.height || birdY < 0) {
       setGameOver(true);
       updateHighscore(score);
@@ -123,22 +131,22 @@ const FlappyBirdGame = () => {
     const ctx = canvas.getContext('2d');
 
     const draw = () => {
-      // Sky blue background
+      // Fondo color cielo
       ctx.fillStyle = "#87CEEB";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Bird
+      // Dibujo del pájaro
       ctx.fillStyle = "yellow";
       ctx.fillRect(50, birdY, 20, 20);
 
-      // Pipes
+      // Dibujo de las tuberías
       pipes.forEach((pipe) => {
         ctx.fillStyle = "green";
         
-        // Top pipe
+        // Tubería superior
         ctx.fillRect(pipe.x, 0, pipe.width, pipe.topPipeHeight);
         
-        // Bottom pipe
+        // Tubería inferior
         ctx.fillRect(pipe.x, canvas.height - pipe.bottomPipeHeight, pipe.width, pipe.bottomPipeHeight);
       });
     };
@@ -153,17 +161,28 @@ const FlappyBirdGame = () => {
     };
   }, [gameOver, gameStarted, velocity, birdY, pipes]);
 
+  useEffect(() => {
+    const pipeGenerationInterval = setInterval(() => {
+      if (gameStarted && !gameOver) {
+        setPipes((prevPipes) => [
+          ...prevPipes,
+          generatePipe(canvasRef.current.width, canvasRef.current.height),
+        ]);
+      }
+    }, 3000); // Genera una tubería cada 5 segundos
+
+    return () => {
+      clearInterval(pipeGenerationInterval);
+    };
+  }, [gameStarted, gameOver]);
+
   const startGame = () => {
     const canvas = canvasRef.current;
     setGameStarted(true);
     setGameOver(false);
     setBirdY(canvas.height / 2);
     setVelocity(0);
-    setPipes([
-      generatePipe(canvas.width, canvas.height),
-      generatePipe(canvas.width, canvas.height),
-      generatePipe(canvas.width, canvas.height)
-    ]);
+    setPipes([generatePipe(canvas.width, canvas.height)]);
     setScore(0);
   };
 
@@ -174,7 +193,7 @@ const FlappyBirdGame = () => {
   };
 
   const handleKeyDown = (event) => {
-    // Prevent default scrolling
+    // Prevenir el desplazamiento por defecto
     if (event.key === " " || event.key === "ArrowUp" || event.key === "ArrowDown") {
       event.preventDefault();
     }
@@ -183,7 +202,7 @@ const FlappyBirdGame = () => {
       if (!gameStarted) {
         startGame();
       }
-      setVelocity(-6); // Decreased jump velocity for smoother jump
+      setVelocity(-6); // Velocidad de salto más suave
     }
   };
 
