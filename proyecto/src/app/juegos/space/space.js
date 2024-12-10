@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function SpaceInvadersGame() {
+  const { translations } = useLanguage();
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
@@ -213,14 +215,14 @@ export default function SpaceInvadersGame() {
     <div className="game-container">
       {!gameStarted && !gameOver && showLevelScreen && (
         <div className="start-screen">
-          <h1>Nivel {level}</h1>
-          <button onClick={startGame}>Comenzar</button>
+          <h1>{translations.level} {level}</h1>
+          <button onClick={startGame}>{translations.comienzo}</button>
         </div>
       )}
       {!gameStarted && !showLevelScreen && (
         <div className="start-screen">
-          <h1>Nivel {level}</h1>
-          <button onClick={startGame}>Comenzar</button>
+          <h1>{translations.level} {level}</h1>
+          <button onClick={startGame}>{translations.comienzo}</button>
         </div>
       )}
       <canvas
@@ -230,8 +232,8 @@ export default function SpaceInvadersGame() {
         style={{ display: gameStarted ? "block" : "none" }}
       ></canvas>
       <div className="score">
-        <p>Score: {score}</p>
-        {gameOver && <p>Game Over!</p>}
+        <p>{translations.score} {score}</p>
+        {gameOver && <p>{translations.gameOver}</p>}
       </div>
       <style jsx>{`
         .game-container {

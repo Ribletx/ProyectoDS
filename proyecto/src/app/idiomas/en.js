@@ -7,8 +7,18 @@ const en = {
   register: "Register",
   logout: "Logout",
 
-  //juegos
+  //JUEGOS:
+  level: "Level",
+  gameOver: "Game Over!", // Mensaje de fin de juego
+  comienzo:"Start",
+  restartButton: "Restart", // Botón para reiniciar el juego
+  backButton: "Back", // Botón para regresar
+  score:"Score:",
+  //Snake
   playSnake: "Play Snake",
+  snakeGameTitle: "Snake Game", // Título para el juego de Snake
+  appleCountLabel: "Collected Apples:", // Etiqueta para el contador de manzanas
+  
   playSpace: "Play Space Invaders",
   playFlapy: "Play Flappy Bird",
   playPingPong: "Play Ping Pong",
