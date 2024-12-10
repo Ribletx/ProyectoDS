@@ -1,6 +1,6 @@
 "use client";
 import SnakeGame from './snake';
-import TopScores from './TopScores'; // Nuevo componente que creamos
+import TopScores from '../../components/TopScores'; // Correcta referencia relativa
 
 const SnakePage = () => {
   const gameName = "snake"; // Aquí definimos el nombre del juego
