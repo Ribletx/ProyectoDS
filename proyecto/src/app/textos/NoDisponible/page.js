@@ -1,6 +1,5 @@
-// app/textos/NoDisponible.js
-import Header from "../../components/header";
-import Footer from "../../components/footer";
+// app/textos/NoDisponible/page.js
+
 
 export default function NoDisponible() {
   return (
@@ -13,7 +12,6 @@ export default function NoDisponible() {
         backgroundAttachment: "fixed",
       }}
     >
-      <Header />
 
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8">
         <h1 className="text-4xl font-semibold text-white my-8">
@@ -24,7 +22,6 @@ export default function NoDisponible() {
         </p>
       </main>
 
-      <Footer />
     </div>
   );
 }

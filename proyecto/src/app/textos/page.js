@@ -53,7 +53,7 @@ export default function Textos() {
       window.open(`/pdf/${pdfPath}`, "_blank");
     } else {
       // Si no existe el PDF, redirigir a la página de "Texto no disponible"
-      router.push("/NoDisponible"); // Redirige correctamente usando router.push
+      router.push("/textos/NoDisponible"); // Ruta corregida
     }
   };
 
