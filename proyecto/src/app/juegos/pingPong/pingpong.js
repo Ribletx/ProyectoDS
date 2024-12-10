@@ -1,7 +1,9 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
+import { useLanguage } from '../../context/LanguageContext';
 
 const PingPongGame = ({ gameMode }) => {
+  const { translations } = useLanguage();
   const canvasRef = useRef(null);
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
@@ -165,7 +167,7 @@ const PingPongGame = ({ gameMode }) => {
 
   return (
     <div className="flex flex-col items-center aspect-auto">
-      <h1 className="text-2xl mb-4 text-white">Juego de Ping Pong</h1>
+      <h1 className="text-2xl mb-4 text-white">{translations.GamePingPong}</h1>
       <canvas ref={canvasRef} width={800} height={400} className="border border-blue-600"></canvas>
     </div>
   );

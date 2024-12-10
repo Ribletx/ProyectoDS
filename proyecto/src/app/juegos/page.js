@@ -33,43 +33,49 @@ export default function Home() {
           </h1>
 
           {/* Contenedor de los botones de los juegos */}
-          <div className="mt-6 flex space-x-0 flex-col"> 
-            {/* Botón para ir a la sección de Snake */}
-            <Link href="/juegos/snake">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
-                {translations.playSnake}
-              </button>
-            </Link>
+          <div className="mt-6 flex space-x-0 flex-col">
 
-            <Link href="/juegos/space">
-              <button className="bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
-                {translations.playSpace}
-              </button>
-            </Link>
-
-            <Link href="/juegos/flapyBird">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
-                {translations.playFlapy}
-              </button>
-            </Link>
-
+            {/* Botón para juego de Ping Pong (1972)*/}
             <Link href="/juegos/pingPong">
               <button className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
                 {translations.playPingPong}
               </button>
             </Link>
 
-            <Link href="/juegos/2048">
-              <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
-                2048
+            {/* Botón para juego de Snake (1976)*/}
+            <Link href="/juegos/snake">
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
+                {translations.playSnake}
               </button>
             </Link>
 
-            <Link href="/juegos/memorice">
+            {/* Botón para juego de Space invaders (1978)*/}
+            <Link href="/juegos/space">
+              <button className="bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
+                {translations.playSpace}
+              </button>
+            </Link>
+
+            {/* Botón para juego de Memorice (origen: 1959) despues se digitalizo*/}
+            {/*<Link href="/juegos/memorice">
               <button className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
                 {translations.playMemorice}
               </button>
+            </Link>*/}
+
+            {/* Botón para juego de Flappy Bird (2013)*/}
+            <Link href="/juegos/flapyBird">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
+                {translations.playFlapy}
+              </button>
             </Link>
+
+            {/* Botón para juego de 2048 (2014)*/}
+            {/*<Link href="/juegos/2048">
+              <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-md mb-5 w-full">
+                2048
+              </button>
+            </Link>*/}
 
           </div>
         </div>

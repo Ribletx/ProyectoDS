@@ -215,21 +215,21 @@ const FlappyBirdGame = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-sky-500 text-white items-center justify-center">
-      <h1 className="text-4xl mb-4 bg-gray-800 rounded-xl p-3 bg-opacity-30">{translations.flappyBirdGameTitle || "Juego de Flappy Bird"}</h1>
+      <h1 className="text-4xl mb-4 bg-gray-800 rounded-xl p-3 bg-opacity-30">{translations.flappyBirdGameTitle}</h1>
       <canvas ref={canvasRef} width={400} height={600} className="border border-white"></canvas>
       <div className="flex flex-col items-center mt-4">
-        <h2 className="text-xl bg-blue-800 bg-opacity-90 rounded-xl p-2 ">{translations.scoreLabel || "Puntaje:"} {score}</h2>
+        <h2 className="text-xl bg-blue-800 bg-opacity-90 rounded-xl p-2 ">{translations.score} {score}</h2>
         {gameOver && (
           <>
-            <h2 className="text-2xl text-red-500 mt-4 bg-gray-800 rounded-xl p-3 bg-opacity-30">{translations.gameOver || "Game Over"}</h2>
+            <h2 className="text-2xl text-red-500 mt-4 bg-gray-800 rounded-xl p-3 bg-opacity-30">{translations.gameOver}</h2>
             <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg mt-2" onClick={restartGame}>
-              {translations.restartButton || "Reiniciar"}
+              {translations.restartButton}
             </button>
           </>
         )}
         {!gameStarted && !gameOver && (
           <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg mt-2" onClick={startGame}>
-            {translations.startButton || "Comenzar Juego"}
+            {translations.startButton}
           </button>
         )}
       </div>

@@ -12,7 +12,7 @@ const es = {
   gameOver: "Juego Terminado", // Mensaje de fin de juego
   comienzo:"Comenzar",
   restartButton: "Reiniciar", // Botón para reiniciar el juego
-  backButton: "Regresar", // Botón para regresar
+  backButton: "Regresar", // Botón para regresar.
   score:"Puntaje:",
   //Snake
   playSnake: "Jugar Snake",
@@ -20,8 +20,16 @@ const es = {
   appleCountLabel: "Manzanas recolectadas:", // Etiqueta para el contador de manzanas
   
   playSpace: "Jugar Space Invaders",
+  //Flppy Bird
   playFlapy: "Jugar Flappy Bird",
+  flappyBirdGameTitle: "Juego de Flappy Bird",
+  //PingPong
   playPingPong: "Jugar Ping Pong",
+  GamePingPong: "Juego de Ping Pong",
+  ModoJuego: "Seleccione el modo de juego",
+  unJugador: "1 Jugador",
+  dosJugador: "2 Jugadores",
+
   playMemorice: "Jugar Memorice",
   playtetris: "Jugar Tetris",
 

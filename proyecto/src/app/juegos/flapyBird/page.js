@@ -2,8 +2,10 @@
 import FlappyBirdGame from './flapyBird';
 import TopScores from '../../components/TopScores'; // Correcta referencia relativa
 import { useRouter } from 'next/navigation'; // Para manejar la navegación
+import { useLanguage } from '../../context/LanguageContext';
 
 const FlappyBirdPage = () => {
+  const { translations } = useLanguage();
   const gameName = "flappybird"; // Definimos el nombre del juego
   const router = useRouter(); // Hook para navegación
 
@@ -18,7 +20,7 @@ const FlappyBirdPage = () => {
           onClick={() => router.back()} 
           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition"
         >
-          Regresar
+          {translations.backButton}
         </button>
       </div>
 

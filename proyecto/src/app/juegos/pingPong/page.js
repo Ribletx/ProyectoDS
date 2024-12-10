@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importa el hook useRouter
 import PingPongGame from './pingpong'; // Componente del juego
+import { useLanguage } from '../../context/LanguageContext';
 
 const PingPongPage = () => {
+  const { translations } = useLanguage();
   const [gameMode, setGameMode] = useState(null); // null, "1-player" or "2-player"
   const router = useRouter(); // Obtén el router
 
@@ -30,25 +32,25 @@ const PingPongPage = () => {
         onClick={handleGoBack} 
         className="absolute top-4 left-4 bg-blue-500 p-4 text-xl rounded-lg"
       >
-        Regresar
+        {translations.backButton}
       </button>
 
       {gameMode === null ? (
         <div className="flex-grow flex items-center justify-center text-white">
           <div className="text-center bg-gray-700 bg-opacity-60 rounded-xl p-8">
-            <h1 className="text-3xl mb-4 text-white ">Seleccione el modo de juego</h1>
+            <h1 className="text-3xl mb-4 text-white ">{translations.ModoJuego}</h1>
             <button
               onClick={() => handleGameMode('1-player')}
               className="bg-blue-500 p-4 px-7 text-xl rounded-lg mb-4"
             >
-              1 Jugador
+              {translations.unJugador}
             </button>
             <br />
             <button
               onClick={() => handleGameMode('2-player')}
               className="bg-blue-500 p-4 text-xl rounded-lg"
             >
-              2 Jugadores
+              {translations.dosJugador}
             </button>
           </div>
         </div>

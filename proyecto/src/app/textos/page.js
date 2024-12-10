@@ -1,21 +1,22 @@
-"use client";  // Marca el archivo para ser procesado en el cliente
+"use client"; // Marca el archivo para ser procesado en el cliente
 
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { useRouter } from "next/navigation"; // Importar useRouter para manejar la navegación
 import Header from "../components/header";
 import Footer from "../components/footer";
 import librosData from "../../data/libros.json";
-import { redirect } from "next/navigation";  // Importar el método de redirección
 
 export default function Textos() {
   const { translations } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBooks, setFilteredBooks] = useState(librosData.libros);
   const [windowWidth, setWindowWidth] = useState(0);
-  const [isClient, setIsClient] = useState(false);  // Estado para verificar si estamos en el cliente
+  const [isClient, setIsClient] = useState(false); // Estado para verificar si estamos en el cliente
+  const router = useRouter(); // Instancia del router para redirección
 
   useEffect(() => {
-    setIsClient(true);  // Activamos el cliente cuando el componente se ha montado en el navegador
+    setIsClient(true); // Activamos el cliente cuando el componente se ha montado en el navegador
 
     if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
@@ -52,7 +53,7 @@ export default function Textos() {
       window.open(`/pdf/${pdfPath}`, "_blank");
     } else {
       // Si no existe el PDF, redirigir a la página de "Texto no disponible"
-      redirect("/textos/NoDisponible");  // Redirige a la página de "Texto no disponible"
+      router.push("/NoDisponible"); // Redirige correctamente usando router.push
     }
   };
 
