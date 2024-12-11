@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importa el hook useRouter
 import PingPongGame from './pingpong'; // Componente del juego
 import { useLanguage } from '../../context/LanguageContext';
+import { Divide } from 'lucide-react';
 
 const PingPongPage = () => {
   const { translations } = useLanguage();
@@ -58,6 +59,8 @@ const PingPongPage = () => {
         <PingPongGame gameMode={gameMode} /> // Pasa el modo de juego al componente del juego
       )}
     </div>
+
+    
   );
 };
 
