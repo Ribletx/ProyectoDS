@@ -1,16 +1,14 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react"; 
 import { useLanguage } from "../../context/LanguageContext";
 
 export default function SpaceInvadersGame() {
   const { translations } = useLanguage();
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [level, setLevel] = useState(1); // Nivel actual del juego
-  const [showLevelScreen, setShowLevelScreen] = useState(false); // Mostrar la pantalla de nivel
-  const [timePassed, setTimePassed] = useState(0); // Control del tiempo
-  const [gameOver, setGameOver] = useState(false); // Verificar si el juego terminó por tiempo
+  const [gameOver, setGameOver] = useState(false); 
+  const [message, setMessage] = useState(""); 
+  const timeLeftRef = useRef(10);  // UseRef para el tiempo restante
+  const [timeLeft, setTimeLeft] = useState(timeLeftRef.current); // Estado para mostrar el tiempo restante
 
   const canvasWidth = 800;
   const canvasHeight = 600;
@@ -85,7 +83,7 @@ export default function SpaceInvadersGame() {
     if (moveDown) {
       invaderSpeed = -invaderSpeed;
       invaders.forEach((invader) => {
-        invader.y += 10;
+        invader.y += 25;
       });
     }
 
@@ -128,6 +126,14 @@ export default function SpaceInvadersGame() {
     }
   };
 
+  const checkGameOver = () => {
+    if (invaders.every((invader) => !invader.alive)) {
+      setMessage("¡Ganaste!");
+      setGameOver(true);
+      setTimeout(() => window.location.reload(), 3000); // Refrescar página tras ganar
+    }
+  };
+
   const gameLoop = (ctx) => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -139,13 +145,7 @@ export default function SpaceInvadersGame() {
     checkCollisions();
     handlePlayerMove();
     handleShoot();
-
-    // Si todos los enemigos son eliminados, mostrar la pantalla del siguiente nivel
-    if (invaders.every((invader) => !invader.alive)) {
-      setShowLevelScreen(true); // Mostrar la pantalla del nivel
-      setGameStarted(false); // Pausar el juego
-      return;
-    }
+    checkGameOver();
 
     if (!gameOver) {
       requestAnimationFrame(() => gameLoop(ctx));
@@ -153,34 +153,35 @@ export default function SpaceInvadersGame() {
   };
 
   const startGame = () => {
-    setGameStarted(true);
-    setShowLevelScreen(false);
     setGameOver(false);
-    setTimePassed(0); // Reiniciar el tiempo
-    initInvaders(); // Inicializar enemigos
-    setScore(0); // Reiniciar el puntaje
+    setMessage("");
+    timeLeftRef.current = 30;
+    setTimeLeft(timeLeftRef.current);
+    initInvaders();
+    setScore(0);
+
+    if (startGame.timer) {
+      clearInterval(startGame.timer);
+    }
+
+    startGame.timer = setInterval(() => {
+      timeLeftRef.current -= 1;
+      setTimeLeft(timeLeftRef.current);
+      if (timeLeftRef.current === 0) {
+        clearInterval(startGame.timer);
+        setMessage("Perdiste por tiempo");
+        setGameOver(true);
+        setTimeout(() => window.location.reload(), 3000); // Refrescar página tras perder
+      }
+    }, 1000);
+
     gameLoop(canvasRef.current.getContext("2d"));
   };
 
-  const checkGameOver = () => {
-    if (timePassed >= 30) {
-      setGameOver(true);
-      setGameStarted(false);
-    }
-  };
-
   useEffect(() => {
-    if (gameStarted) {
-      const timer = setInterval(() => {
-        setTimePassed((prevTime) => prevTime + 1);
-        checkGameOver();
-      }, 1000);
+    startGame();
+  }, []);
 
-      return () => clearInterval(timer);
-    }
-  }, [gameStarted, timePassed]);
-
-  // Manejo de eventos de teclado para mover el jugador
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "ArrowLeft") {
@@ -213,27 +214,16 @@ export default function SpaceInvadersGame() {
 
   return (
     <div className="game-container">
-      {!gameStarted && !gameOver && showLevelScreen && (
-        <div className="start-screen">
-          <h1>{translations.level} {level}</h1>
-          <button onClick={startGame}>{translations.comienzo}</button>
-        </div>
-      )}
-      {!gameStarted && !showLevelScreen && (
-        <div className="start-screen">
-          <h1>{translations.level} {level}</h1>
-          <button onClick={startGame}>{translations.comienzo}</button>
-        </div>
-      )}
       <canvas
         ref={canvasRef}
         width={canvasWidth}
         height={canvasHeight}
-        style={{ display: gameStarted ? "block" : "none" }}
+        style={{ display: "block" }}
       ></canvas>
       <div className="score">
         <p>{translations.score} {score}</p>
-        {gameOver && <p>{translations.gameOver}</p>}
+        <p>{translations.timeLeft} {timeLeft} {translations.seconds}</p>
+        {gameOver && <p>{message}</p>}
       </div>
       <style jsx>{`
         .game-container {
@@ -243,48 +233,14 @@ export default function SpaceInvadersGame() {
           justify-content: center;
           padding: 20px;
         }
-
-        .start-screen {
-          width: 400px;
-          height: 300px;
-          text-align: center;
-          background: black;
-          color: white;
-          padding-top: 40px;
-          position: relative;
-        }
-
-        .start-screen h1 {
-          font-size: 2.5rem;
-          margin-top: 20px;
-        }
-
-        .start-screen button {
-          position: absolute;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          padding: 10px 40px;
-          background-color: blue;
-          color: white;
-          border: none;
-          border-radius: 10px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-
-        .start-screen button:hover {
-          background-color: darkblue;
-        }
-
+  
         canvas {
           border: 2px solid black;
           max-width: 100%;
           height: auto;
           background: black;
         }
-
+  
         .score {
           margin-top: 10px;
           font-size: 1.5rem;

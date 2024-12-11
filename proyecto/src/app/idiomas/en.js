@@ -19,10 +19,15 @@ const en = {
   snakeGameTitle: "Snake Game", // Título para el juego de Snake
   appleCountLabel: "Collected Apples:", // Etiqueta para el contador de manzanas
   
-  playSpace: "Play Space Invaders",
+  //SpaceInvaders
+  playSpace: "Jugar Space Invaders",
+  timeLeft:"Time Left:",
+
   //Flappy Bird
   playFlapy: "Play Flappy Bird",
   flappyBirdGameTitle: "Flappy Bird Game",
+  startButton:"Start",
+  restartButton: "Try again?",
   //PingPong
   playPingPong: "Play Ping Pong",
   GamePingPong: "Ping Pong Game",
